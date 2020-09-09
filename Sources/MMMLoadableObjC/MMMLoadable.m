@@ -285,6 +285,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 	if (self = [super init]) {
 
+		#if !TARGET_OS_WATCH
 		[[NSNotificationCenter defaultCenter]
 			addObserver:self
 			selector:@selector(applicationDidEnterBackground:)
@@ -297,6 +298,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 			name:UIApplicationDidBecomeActiveNotification
 			object:nil
 		];
+		#endif
 	}
 
 	return self;
@@ -304,6 +306,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 - (void)dealloc {
 
+	#if !TARGET_OS_WATCH
 	[[NSNotificationCenter defaultCenter]
 		removeObserver:self
 		name:UIApplicationDidBecomeActiveNotification
@@ -315,6 +318,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 		name:UIApplicationDidEnterBackgroundNotification
 		object:nil
 	];
+	#endif
 
 	[self clearAutosyncTimer];
 }
@@ -342,11 +346,15 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	if (!self.hasObservers)
 		return;
 
+	#if !TARGET_OS_WATCH
 	NSTimeInterval timeout;
 	if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
 		timeout = [self autosyncIntervalWhileInBackground];
 	else
 		timeout = [self autosyncInterval];
+	#else
+	NSTimeInterval timeout = [self autosyncInterval];
+	#endif
 
 	if (timeout <= 0)
 		return;

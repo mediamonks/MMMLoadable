@@ -6,7 +6,7 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "1.0.8"
+  s.version = "1.0.9"
   s.summary = "A simple promise-like model of async calculations"
   s.description =  s.summary
   s.homepage = "https://github.com/mediamonks/#{s.name}"
@@ -17,11 +17,11 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.watchos.deployment_target = '3.0'
   
-  s.subspec 'ObjC' do |s|   
-    s.source_files = [ "Sources/#{s.name}ObjC/*.{h,m}" ]
-    s.dependency 'MMMCommonCore/ObjC'
-    s.dependency 'MMMLog/ObjC'
-    s.dependency 'MMMObservables/ObjC'
+  s.subspec 'ObjC' do |ss|
+    ss.source_files = [ "Sources/#{s.name}ObjC/*.{h,m}" ]
+    ss.dependency 'MMMCommonCore/ObjC'
+    ss.dependency 'MMMLog/ObjC'
+    ss.dependency 'MMMObservables/ObjC'
   end
   
   s.swift_versions = '4.2'
@@ -29,12 +29,12 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = {
     "DEFINES_MODULE" => "YES"
   } 
-  s.subspec 'Swift' do |s|
-    s.source_files = [ "Sources/#{s.name}/*.swift" ]  
-    s.dependency "#{s.name}/ObjC"
-    s.dependency 'MMMCommonCore/Swift'
-    s.dependency 'MMMLog/Swift'
-    s.dependency 'MMMObservables/Swift'
+  s.subspec 'Swift' do |ss|
+    ss.source_files = [ "Sources/#{s.name}/*.swift" ]  
+    ss.dependency "#{s.name}/ObjC"
+    ss.dependency 'MMMCommonCore/Swift'
+    ss.dependency 'MMMLog/Swift'
+    ss.dependency 'MMMObservables/Swift'
   end
   
   s.test_spec 'Tests' do |ss|

@@ -6,7 +6,7 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "1.0.10"
+  s.version = "1.1.1"
   s.summary = "A simple promise-like model of async calculations"
   s.description =  s.summary
   s.homepage = "https://github.com/mediamonks/#{s.name}"
@@ -32,14 +32,14 @@ Pod::Spec.new do |s|
   s.subspec 'Swift' do |ss|
     ss.source_files = [ "Sources/#{s.name}/*.swift" ]  
     ss.dependency "#{s.name}/ObjC"
-    ss.dependency 'MMMCommonCore/Swift'
-    ss.dependency 'MMMLog/Swift'
-    ss.dependency 'MMMObservables/Swift'
+    ss.dependency 'MMMCommonCore'
+    ss.dependency 'MMMLog'
+    ss.dependency 'MMMObservables'
   end
   
   s.test_spec 'Tests' do |ss|
     ss.source_files = "Tests/*.{m,swift}"
   end  
 
-  s.default_subspec = 'Swift' 
+	s.default_subspec = 'ObjC', 'Swift'
 end

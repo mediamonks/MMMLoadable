@@ -80,7 +80,7 @@ public final class MMMLoadableSyncer {
 		}
 
 		guard let loadable = loadable else { preconditionFailure() }
-		MMMLogTrace(self, "Going to sync \(MMMLogContext(fromObject: loadable)) in \(t)s")
+		MMMLogTrace(loadable, "Going to sync in \(String(format: "%.1f", t))s")
 	}
 
 	private func sync() {
@@ -109,8 +109,8 @@ public final class MMMLoadableSyncer {
 
 		switch loadable.loadableState {
 		case .idle:
-			// TODO: it might be benefitial in some cases to wait for someone else to drive the first sync. Make configurable?
-			setTimer(timeout: timeoutPolicy.nextTimeout(afterFailure: false))
+			// Assuming that the initial sync needs to be driven by somebody else.
+			cancelTimer()
 		case .syncing:
 			// Let's wait for sync to complete. Should cancel our timer if we had one.
 			cancelTimer()

@@ -225,7 +225,10 @@
 	}
 
 	if (![[response MIMEType] isEqual:@"image/jpeg"] && ![[response MIMEType] isEqual:@"image/jp2"] &&
-		![[response MIMEType] isEqual:@"image/png"] && ![[response MIMEType] isEqual:@"image/gif"]) {
+        ![[response MIMEType] isEqual:@"image/png"] && ![[response MIMEType] isEqual:@"image/gif"] &&
+        // Some backends just cannot configure themselves properly so let's accept generic byte streams as well.
+        ![[response MIMEType] isEqual:@"application/octet-stream" 
+    ) {
 
 		[self didFailWithError:[self errorWithMessage:[NSString
 			stringWithFormat:@"Unsupported MIME type: '%@'", [response MIMEType]

@@ -5,6 +5,7 @@
 
 import Foundation
 import MMMLog
+import UIKit // For UIApplication.
 
 /// Syncs a loadable periodically using backoff timeouts in case of failures.
 ///
@@ -23,14 +24,28 @@ public final class MMMLoadableSyncer {
 	}
 	private let syncPolicy: SyncPolicy
 
+	private var didBecomeActiveObserver: NSObjectProtocol?
+
 	/// Designated initializer allowing to customize the timeout policy, something that can be useful at least for testing.
 	public init(loadable: MMMLoadableProtocol, syncPolicy: SyncPolicy = .sync, timeoutPolicy: MMMTimeoutPolicy) {
+
 		self.loadable = loadable
 		self.syncPolicy = syncPolicy
 		self.timeoutPolicy = timeoutPolicy
 		self.loadableObserver = MMMLoadableObserver(loadable: loadable) { [weak self] _ in
 			self?.reschedule()
 		}
+
+		// Let's stir the backoff timer when the app becomes active to potentially refresh things faster.
+		self.didBecomeActiveObserver = NotificationCenter.default.addObserver(
+			forName: UIApplication.didBecomeActiveNotification,
+			object: nil,
+			queue: .main
+		) { [weak self] _ in
+			timeoutPolicy.reset()
+			self?.reschedule()
+		}
+
 		reschedule()
 	}
 
@@ -62,6 +77,7 @@ public final class MMMLoadableSyncer {
 
 	deinit {
     	cancelTimer()
+		didBecomeActiveObserver.map { NotificationCenter.default.removeObserver($0) }
 	}
 
 	private var timer: Timer?
@@ -130,8 +146,11 @@ public final class MMMLoadableSyncer {
 /// Tells when to try doing something next time depending on the outcome of the previous attempt (succeeded/failed)
 /// and possibly external factors.
 public protocol MMMTimeoutPolicy: AnyObject {
+
 	/// A 0 after a success is treated as "no action required".
 	func nextTimeout(afterFailure: Bool) -> TimeInterval
+
+	func reset()
 }
 
 /// A timeout policy that is using a constant period after successful attempts and a set of incrementing timeouts
@@ -159,7 +178,7 @@ public final class MMMBackoffTimeoutPolicy: MMMTimeoutPolicy {
 
 	private var upperBound: TimeInterval = 0
 
-	private func reset() {
+	public func reset() {
 		upperBound = min
 	}
 

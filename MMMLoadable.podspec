@@ -6,9 +6,9 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "1.2.4"
-  s.summary = "A simple promise-like model of async calculations"
-  s.description =  s.summary
+  s.version = "1.3.0"
+  s.summary = "A simple model for async calculations"
+  s.description = "#{s.summary}."
   s.homepage = "https://github.com/mediamonks/#{s.name}"
   s.license = "MIT"
   s.authors = "MediaMonks"
@@ -37,7 +37,8 @@ Pod::Spec.new do |s|
     ss.dependency 'MMMObservables'
   end
   
-  s.test_spec 'Tests' do |ss|
+  s.test_spec 'Tests' do |ss|		
+	  ss.ios.deployment_target = '11.0'
     ss.source_files = "Tests/*.{m,swift}"
   end  
 

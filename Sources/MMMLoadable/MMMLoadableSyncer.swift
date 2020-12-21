@@ -5,7 +5,9 @@
 
 import Foundation
 import MMMLog
+#if os(iOS)
 import UIKit // For UIApplication.
+#endif
 
 /// Syncs a loadable periodically using backoff timeouts in case of failures.
 ///
@@ -37,6 +39,7 @@ public final class MMMLoadableSyncer {
 		}
 
 		// Let's stir the backoff timer when the app becomes active to potentially refresh things faster.
+		#if os(iOS)
 		self.didBecomeActiveObserver = NotificationCenter.default.addObserver(
 			forName: UIApplication.didBecomeActiveNotification,
 			object: nil,
@@ -45,6 +48,7 @@ public final class MMMLoadableSyncer {
 			timeoutPolicy.reset()
 			self?.reschedule()
 		}
+		#endif
 
 		reschedule()
 	}

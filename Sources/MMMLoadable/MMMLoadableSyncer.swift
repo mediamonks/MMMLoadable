@@ -19,7 +19,8 @@ public final class MMMLoadableSyncer {
 	private var loadableObserver: MMMLoadableObserver?
 	private let timeoutPolicy: MMMTimeoutPolicy
 
-	/// Should the sync be triggered in any case ("hard" sync by calling `sync`) or only wnen needed (`syncIfNeeded`).
+	/// Should the sync be triggered in any case ("hard" sync by calling `sync`)
+	/// or only when needed (`syncIfNeeded`).
 	public enum SyncPolicy {
 		case sync
 		case syncIfNeeded
@@ -38,15 +39,13 @@ public final class MMMLoadableSyncer {
 			self?.reschedule()
 		}
 
-		// Let's stir the backoff timer when the app becomes active to potentially refresh things faster.
 		#if os(iOS)
 		self.didBecomeActiveObserver = NotificationCenter.default.addObserver(
 			forName: UIApplication.didBecomeActiveNotification,
 			object: nil,
 			queue: .main
 		) { [weak self] _ in
-			timeoutPolicy.reset()
-			self?.reschedule()
+			self?.reschedule(afterAppBecameActive: true)
 		}
 		#endif
 
@@ -122,7 +121,7 @@ public final class MMMLoadableSyncer {
 		}
 	}
 
-	private func reschedule() {
+	private func reschedule(afterAppBecameActive: Bool = false) {
 
 		// The target can be gone anytime by design.
 		guard let loadable = loadable else { return }
@@ -135,13 +134,25 @@ public final class MMMLoadableSyncer {
 			// Let's wait for sync to complete. Should cancel our timer if we had one.
 			cancelTimer()
 		case .didFailToSync:
+			// Let's stir the backoff timer when the app becomes active to recover after the failure faster.
+			if afterAppBecameActive {
+				timeoutPolicy.reset()
+			}
 			setTimer(timeout: timeoutPolicy.nextTimeout(afterFailure: true))
 		case .didSyncSuccessfully:
 			let timeout = timeoutPolicy.nextTimeout(afterFailure: false)
 			if timeout > 0 {
-				setTimer(timeout: timeout)
+				// We want to re-sync things after the app becomes active with the minimum timeout
+				// like after a failure, unless it's not allowed to re-sync.
+				// TODO: make this more explicit in the timeout policy
+				if afterAppBecameActive {
+					timeoutPolicy.reset()
+					setTimer(timeout: timeoutPolicy.nextTimeout(afterFailure: true))
+				} else {
+					setTimer(timeout: afterAppBecameActive ? 0 : timeout)
+				}
 			} else {
-				// Treating 0 as "no sync after success required".
+				// Treating 0 period as "no sync after success required".
 			}
 		}
 	}

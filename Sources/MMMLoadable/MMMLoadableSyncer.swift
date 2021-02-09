@@ -3,8 +3,9 @@
 // Copyright (C) 2016-2020 MediaMonks. All rights reserved.
 //
 
-import Foundation
+import MMMCommonCore
 import MMMLog
+
 #if os(iOS)
 import UIKit // For UIApplication.
 #endif
@@ -13,6 +14,9 @@ import UIKit // For UIApplication.
 ///
 /// Note that it holds a weak reference to the target loadable, which makes it easier to compose it into
 /// the implementation of the loadable if needed.
+///
+/// Also note, that when a non-zero period is used, then an extra sync is performed everytime the app enters
+/// foreground.
 public final class MMMLoadableSyncer {
 
 	private weak var loadable: MMMLoadableProtocol?
@@ -27,14 +31,23 @@ public final class MMMLoadableSyncer {
 	}
 	private let syncPolicy: SyncPolicy
 
+	private let timeSource: MMMTimeSource
+
 	private var didBecomeActiveObserver: NSObjectProtocol?
 
 	/// Designated initializer allowing to customize the timeout policy, something that can be useful at least for testing.
-	public init(loadable: MMMLoadableProtocol, syncPolicy: SyncPolicy = .sync, timeoutPolicy: MMMTimeoutPolicy) {
+	public init(
+		loadable: MMMLoadableProtocol,
+		syncPolicy: SyncPolicy = .sync,
+		timeoutPolicy: MMMTimeoutPolicy,
+		timeSource: MMMTimeSource? = nil
+	) {
 
 		self.loadable = loadable
 		self.syncPolicy = syncPolicy
 		self.timeoutPolicy = timeoutPolicy
+		self.timeSource = timeSource ?? MMMDefaultTimeSource()
+
 		self.loadableObserver = MMMLoadableObserver(loadable: loadable) { [weak self] _ in
 			self?.reschedule()
 		}
@@ -64,7 +77,8 @@ public final class MMMLoadableSyncer {
 		loadable: MMMLoadableProtocol,
 		syncPolicy: SyncPolicy = .sync,
 		period: TimeInterval,
-		backoff: BackoffSettings
+		backoff: BackoffSettings,
+		timeSource: MMMTimeSource? = nil
 	) {
 		self.init(
 			loadable: loadable,
@@ -74,7 +88,8 @@ public final class MMMLoadableSyncer {
 				min: backoff.min,
 				max: backoff.max,
 				multiplier: backoff.multiplier
-			)
+			),
+			timeSource: timeSource
 		)
 	}
 
@@ -94,11 +109,15 @@ public final class MMMLoadableSyncer {
 
 		let t = max(timeout, 0)
 		timer?.invalidate()
-		timer = Timer.scheduledTimer(withTimeInterval: t, repeats: false) { [weak self] _ in
+		timer = Timer.scheduledTimer(
+			withTimeInterval: timeSource.realTimeIntervalFrom(timeout),
+			repeats: false
+		) { [weak self] _ in
 			self?.sync()
 		}
 
 		guard let loadable = loadable else { preconditionFailure() }
+		
 		MMMLogTrace(loadable, "Going to sync in \(String(format: "%.1f", t))s")
 	}
 
@@ -172,12 +191,16 @@ public protocol MMMTimeoutPolicy: AnyObject {
 /// after failures.
 public final class MMMBackoffTimeoutPolicy: MMMTimeoutPolicy {
 
-	private let period: TimeInterval
 	private let min: TimeInterval
 	private let max: TimeInterval
 	private let multiplier: Double
 
-	public init(period: TimeInterval, min: TimeInterval, max: TimeInterval, multiplier: Double) {
+	public init(
+		period: TimeInterval = 0,
+		min: TimeInterval,
+		max: TimeInterval,
+		multiplier: Double = 2.0.squareRoot()
+	) {
 
 		assert(period >= 0)
 		assert(0 <= min && min <= max)
@@ -208,4 +231,10 @@ public final class MMMBackoffTimeoutPolicy: MMMTimeoutPolicy {
 			return period
 		}
 	}
+
+	/// How often to sync after a success. Set to 0 to disable.
+	///
+	/// You can change this but note that it will be used only on the next change in the state of the loadable,
+	/// because there is no feedback between the policy and the syncer.
+	public var period: TimeInterval
 }

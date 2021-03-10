@@ -168,7 +168,7 @@ public final class MMMLoadableSyncer {
 					timeoutPolicy.reset()
 					setTimer(timeout: timeoutPolicy.nextTimeout(afterFailure: true))
 				} else {
-					setTimer(timeout: afterAppBecameActive ? 0 : timeout)
+					setTimer(timeout: timeout)
 				}
 			} else {
 				// Treating 0 period as "no sync after success required".
@@ -203,7 +203,8 @@ public final class MMMBackoffTimeoutPolicy: MMMTimeoutPolicy {
 	) {
 
 		assert(period >= 0)
-		assert(0 <= min && min <= max)
+		// Note that we cannot allow zero for min as we won't be able to increase it then.
+		assert(0 < min && min <= max)
 		assert(multiplier >= 1)
 
 		self.period = period

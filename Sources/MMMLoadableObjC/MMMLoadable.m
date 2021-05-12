@@ -6,7 +6,12 @@
 #import "MMMLoadable.h"
 #import "MMMLoadable+Subclasses.h"
 
+#if SWIFT_PACKAGE
+#import "MMMCommonCore.h"
+#import "UIKit/UIKit.h"
+#else
 @import MMMCommonCore;
+#endif
 
 #pragma mark - MMMLoadable
 

@@ -5,6 +5,10 @@
 
 import Foundation
 
+#if SWIFT_PACKAGE
+import MMMLoadableObjC
+#endif
+
 /// Waits for the given loadable to be done with syncing before passing control to your completion handler.
 ///
 /// This is a more lightweight version of `MMMLoadableWaiter` that does not support timeouts, multiple pending

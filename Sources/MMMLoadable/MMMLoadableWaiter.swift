@@ -5,6 +5,11 @@
 
 import Foundation
 import MMMCommonCore
+import MMMObservables
+
+#if SWIFT_PACKAGE
+import MMMLoadableObjC
+#endif
 
 /// Allows for multiple parties to wait for a loadable to have its contents available or synced successfully.
 ///

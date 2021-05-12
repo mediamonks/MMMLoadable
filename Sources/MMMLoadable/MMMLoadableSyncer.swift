@@ -10,6 +10,10 @@ import MMMLog
 import UIKit // For UIApplication.
 #endif
 
+#if SWIFT_PACKAGE
+import MMMLoadableObjC
+#endif
+
 /// Syncs a loadable periodically using backoff timeouts in case of failures.
 ///
 /// Note that it holds a weak reference to the target loadable, which makes it easier to compose it into

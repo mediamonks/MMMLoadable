@@ -5,7 +5,11 @@
 
 #import "MMMLoadable.h"
 
+#if SWIFT_PACKAGE
+#import "MMMObservables.h"
+#else
 @import MMMObservables;
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

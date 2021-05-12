@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "MMMCommonCore",
+        "repositoryURL": "https://github.com/mediamonks/MMMCommonCore",
+        "state": {
+          "branch": null,
+          "revision": "70ae367fe7c85a7ecb3752b867b47d071897dd3a",
+          "version": "1.2.1"
+        }
+      },
+      {
+        "package": "MMMLog",
+        "repositoryURL": "https://github.com/mediamonks/MMMLog",
+        "state": {
+          "branch": null,
+          "revision": "c9425684a5a848596c1d02aa276028444ff492d5",
+          "version": "1.2.1"
+        }
+      },
+      {
+        "package": "MMMObservables",
+        "repositoryURL": "https://github.com/mediamonks/MMMObservables",
+        "state": {
+          "branch": null,
+          "revision": "fc2ceb2233214a691f972cdbbeaf474039cef0f5",
+          "version": "1.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

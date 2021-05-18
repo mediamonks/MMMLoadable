@@ -5,4 +5,6 @@
 
 import Foundation
 
+#if SWIFT_PACKAGE
 @_exported import MMMLoadableObjC
+#endif

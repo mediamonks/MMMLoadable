@@ -7,8 +7,8 @@
 #import "MMMLoadable+Subclasses.h"
 
 #if SWIFT_PACKAGE
-#import "MMMCommonCore.h"
-#import "MMMLog.h"
+#import "MMMCommonCoreObjC.h"
+#import "MMMLogObjC.h"
 #else
 @import MMMCommonCore;
 @import MMMLog;

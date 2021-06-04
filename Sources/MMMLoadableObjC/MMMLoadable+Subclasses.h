@@ -6,7 +6,7 @@
 #import "MMMLoadable.h"
 
 #if SWIFT_PACKAGE
-#import "MMMObservables.h"
+#import "MMMObservablesObjC.h"
 #else
 @import MMMObservables;
 #endif

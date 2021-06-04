@@ -13,9 +13,9 @@ let package = Package(
 		)
     ],
     dependencies: [
-		.package(url: "https://github.com/mediamonks/MMMCommonCore", .upToNextMajor(from: "1.2.1")),
-		.package(url: "https://github.com/mediamonks/MMMObservables", .upToNextMajor(from: "1.2.0")),
-		.package(url: "https://github.com/mediamonks/MMMLog", .upToNextMajor(from: "1.2.1"))
+		.package(url: "https://github.com/mediamonks/MMMCommonCore", .upToNextMajor(from: "1.3.2")),
+		.package(url: "https://github.com/mediamonks/MMMObservables", .upToNextMajor(from: "1.2.2")),
+		.package(url: "https://github.com/mediamonks/MMMLog", .upToNextMajor(from: "1.2.2"))
     ],
     targets: [
         .target(

@@ -708,7 +708,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)groupDidChange {
-	// This can be overriden in the subclasses of the group.
+	// This can be overridden in the subclasses of the group.
 }
 
 - (void)notifyDidChange {
@@ -890,12 +890,27 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	return self.loadable ? self.loadable.needsSync : YES;
 }
 
--(void)syncIfNeeded {
-	[self.loadable syncIfNeeded];
+- (void)sync {
+	// We cannot use the logic of the base class here, i.e. ignore `sync` request when we are already `syncing`.
+	// For example, if the proxied object is a group where one object is syncing already, but another is not (and thus
+	// the whole group is `syncing`), then eating this request is going to prevent this other object from refreshing.
+	//
+	// Therefore we simply forward this to the proxied object, if any; or mark it as 'syncing' if nothing is set yet
+	// (this way, we are going to sync the proxied object, if needed, once it's assigned).
+	if (self.loadable) {
+		[self.loadable sync];
+	} else {
+		self.loadableState = MMMLoadableStateSyncing;
+	}
 }
 
-- (void)doSync {
-	[self.loadable sync];
+- (void)syncIfNeeded {
+	// See the comment in sync, it's similar here.
+	if (self.loadable) {
+		[self.loadable syncIfNeeded];
+	} else {
+		self.loadableState = MMMLoadableStateSyncing;
+	}
 }
 
 @end

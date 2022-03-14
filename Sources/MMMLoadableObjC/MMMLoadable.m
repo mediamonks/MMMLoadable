@@ -8,7 +8,12 @@
 
 #if SWIFT_PACKAGE
 #import "MMMCommonCoreObjC.h"
-#import "UIKit/UIKit.h"
+
+#if __has_include(<UIKit/UIKit.h>)
+#import <UIKit/UIKit.h>
+#define __HAS_UI_KIT__
+#endif
+
 #else
 @import MMMCommonCore;
 #endif
@@ -281,6 +286,9 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 //
 //
 //
+
+#ifdef __HAS_UI_KIT__
+
 @implementation MMMAutosyncLoadable	{
 	MMMWeakProxy *_autosyncTimerProxy;
 	NSTimer *_autosyncTimer;
@@ -403,6 +411,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 @end
+
+#endif
 
 #pragma mark - MMMLoadableObserver
 

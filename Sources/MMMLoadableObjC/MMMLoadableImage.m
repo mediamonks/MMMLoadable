@@ -14,6 +14,7 @@
 @import MMMLog;
 #endif
 
+#ifdef __HAS_UI_KIT__
 //
 //
 //
@@ -55,7 +56,7 @@
 //
 //
 //
-@implementation MMMNamedLoadableImage {
+API_AVAILABLE(ios(11)) @implementation MMMNamedLoadableImage {
 	NSString *_name;
 }
 
@@ -116,7 +117,7 @@
 //
 //
 //
-@implementation MMMPublicLoadableImage {
+API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 	NSURL *_url;
 	UIImage *_image;
 	NSURLSession *_session;
@@ -275,7 +276,7 @@
 //
 //
 //
-@implementation MMMTestLoadableImage
+API_AVAILABLE(ios(11)) @implementation MMMTestLoadableImage
 
 @synthesize image = _image;
 
@@ -293,7 +294,7 @@
 //
 //
 //
-@implementation MMMLoadableImageProxy
+API_AVAILABLE(ios(11)) @implementation MMMLoadableImageProxy
 
 @dynamic loadable;
 
@@ -302,3 +303,5 @@
 }
 
 @end
+
+#endif

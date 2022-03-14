@@ -4,7 +4,10 @@ import PackageDescription
 let package = Package(
     name: "MMMLoadable",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v11),
+        .watchOS(.v5),
+        .tvOS(.v10),
+        .macOS(.v10_12)
     ],
     products: [
         .library(
@@ -13,9 +16,9 @@ let package = Package(
 		)
     ],
     dependencies: [
-		.package(url: "https://github.com/mediamonks/MMMCommonCore", .upToNextMajor(from: "1.3.2")),
-		.package(url: "https://github.com/mediamonks/MMMObservables", .upToNextMajor(from: "1.2.2")),
-		.package(url: "https://github.com/mediamonks/MMMLog", .upToNextMajor(from: "1.2.2"))
+		.package(url: "https://github.com/mediamonks/MMMCommonCore", .upToNextMajor(from: "1.7.0")),
+		.package(url: "https://github.com/mediamonks/MMMObservables", .upToNextMajor(from: "1.3.2")),
+		.package(url: "https://github.com/mediamonks/MMMLog", .upToNextMajor(from: "1.2.4"))
     ],
     targets: [
         .target(

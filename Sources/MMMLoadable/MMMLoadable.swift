@@ -8,3 +8,8 @@ import Foundation
 #if SWIFT_PACKAGE
 @_exported import MMMLoadableObjC
 #endif
+
+extension MMMLoadableState: CustomDebugStringConvertible {
+	
+	public var debugDescription: String { NSStringFromMMMLoadableState(self) }
+}

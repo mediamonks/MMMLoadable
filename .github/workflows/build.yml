@@ -7,12 +7,42 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build using any available iPhone simulator
+  build_ios:
+    name: Build iOS
     runs-on: macos-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
-        run: xcodebuild build -sdk iphoneos -scheme 'MMMLoadable'
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=iOS
+
+  build_watchos:
+    name: Build watchOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=watchOS
+
+  build_tvos:
+    name: Build tvOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=tvOS
+
+  build_macos:
+    name: Build macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=macOS

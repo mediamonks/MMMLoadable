@@ -8,7 +8,7 @@
 
 #if SWIFT_PACKAGE
 #import "MMMCommonCoreObjC.h"
-#import "MMMLogObjC.h"
+#import "MMMLog.h"
 #else
 @import MMMCommonCore;
 @import MMMLog;

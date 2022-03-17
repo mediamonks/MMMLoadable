@@ -14,8 +14,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare
+        run: gem install xcpretty
       - name: Build
-        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=iOS
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=iOS | xcpretty
 
   build_watchos:
     name: Build watchOS
@@ -24,8 +26,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare
+        run: gem install xcpretty
       - name: Build
-        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=watchOS
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=watchOS | xcpretty
 
   build_tvos:
     name: Build tvOS
@@ -34,8 +38,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare
+        run: gem install xcpretty
       - name: Build
-        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=tvOS
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=tvOS | xcpretty
 
   build_macos:
     name: Build macOS
@@ -44,5 +50,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare
+        run: gem install xcpretty
       - name: Build
-        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=macOS
+        run: xcodebuild build -scheme 'MMMLoadable' -destination generic/platform=macOS | xcpretty

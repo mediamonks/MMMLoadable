@@ -7,7 +7,8 @@
 #import "MMMLoadable+Subclasses.h"
 
 #if SWIFT_PACKAGE
-#import "MMMCommonCoreObjC.h"
+@import MMMCommonCoreObjC;
+@import MMMLogObjC;
 #else
 @import MMMCommonCore;
 @import MMMLog;
@@ -84,9 +85,7 @@ API_AVAILABLE(ios(11)) @implementation MMMNamedLoadableImage {
 
 	} else {
 		
-		#ifndef SWIFT_PACKAGE
 		MMM_LOG_ERROR(@"Could not load the image named '%@'", _name);
-		#endif
 		
 		[self setFailedToSyncWithError:nil];
 
@@ -204,9 +203,8 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 }
 
 - (void)setFailedToSyncWithError:(NSError *)error {
-	#ifndef SWIFT_PACKAGE
+	
 	MMM_LOG_ERROR(@"Failed to fetch the image at '%@': %@", _url, [error localizedDescription]);
-	#endif
 	
 	[super setFailedToSyncWithError:error];
 }
@@ -248,9 +246,7 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 	UIImage *image = [[UIImage alloc] initWithData:data];
 	if (image) {
 		
-		#ifndef SWIFT_PACKAGE
 		MMM_LOG_TRACE(@"Successfully fetched a %ldx%ld image from %@", (long)image.size.width, (long)image.size.height, _url);
-		#endif
 		
 		// Now we know the size of the image, let's update the cost in the cache.
 		[[MMMPublicLoadableImage cache] setObject:self forKey:_url cost:image.size.width * image.size.height];

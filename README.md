@@ -20,6 +20,12 @@ pod 'MMMLoadable'
 
 (Use 'MMMLoadable/ObjC' when Swift wrappers are not needed.)
 
+SPM:
+
+```swift
+.package(url: "https://github.com/mediamonks/MMMLoadable", .upToNextMajor(from: "1.6.2"))
+```
+
 ## Usage
 
 TBD

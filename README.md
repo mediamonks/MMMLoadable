@@ -11,7 +11,7 @@ A simple promise-like model of async calculations.
 
 Podfile:
 
-```
+```ruby
 source 'https://github.com/mediamonks/MMMSpecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 ...

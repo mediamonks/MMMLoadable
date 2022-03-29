@@ -43,12 +43,6 @@ loadable again). The contents, if available in a loadable, is not changed until 
 successful sync, which again fits the usual UI patterns where data is displayed even during
 a refresh.
 
-> I was calling them 'loadable objects' originally because I did not know this pattern at the
-> time (2012) when I needed a model for nodes of a data graph that could be loaded (or refreshed)
-> on demand as the user was navigating through the app. The nodes would contain a bunch of values
-> corresponding to a single API call. While the nodes were refreshing the previously loaded values
-> could still be used in the UI. Same for the case when attempts to refresh were failing.
-
 A loadable can be in 4 states:
  - `idle` Nothing is happening with the object now. It's been never synced or the result of the last sync is not known or important. (Promises — 'not ready'.)
  - `syncing` The object is being synced now (e.g. the contents are being downloaded or saved somewhere). (Promises — 'in-progress'.)

@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import MMMCommonCore
 
 #if SWIFT_PACKAGE
 @_exported import MMMLoadableObjC
@@ -23,8 +24,12 @@ extension MMMPureLoadableProtocol {
     /// - Returns: The observer, you usually want to store this outside of the scope, e.g.
     ///            in a private property so it doesn't deallocate right away.
     public func sink(_ block: @escaping (Self) -> Void) -> MMMLoadableObserver? {
-        return MMMLoadableObserver(loadable: self) { loadable in
-            block(loadable as! Self)
+        return MMMLoadableObserver(loadable: self) { [weak self] _ in
+            guard let self = self else {
+                assertionFailure("\(MMMTypeName(Self.self)) was lost inside the observer callback?")
+                return
+            }
+            block(self)
         }
     }
 }

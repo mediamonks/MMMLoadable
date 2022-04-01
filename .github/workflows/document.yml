@@ -38,20 +38,17 @@ jobs:
       - name: Install Jazzy
         run: gem install jazzy
 
-      - name: Build Swift docs
+      - name: Install Doc Generator
         run: |
-          sourcekitten doc --spm --module-name ${{ github.event.repository.name }} > swiftDoc.json
+          git clone https://github.com/mediamonks/MMMDocGenerator.git
+          cd MMMDocGenerator
+          swift build -c release
+          cd ../
+          cp MMMDocGenerator/.build/release/DocGenerator .
 
-      - name: Build ObjC docs
-        run: |
-          sourcekitten doc --objc $(pwd)/Sources/${{ github.event.repository.name }}ObjC/include/${{ github.event.repository.name }}ObjC.h \
-            -- -x objective-c  -isysroot $(xcrun --show-sdk-path --sdk iphonesimulator) \
-            -I $(pwd) -fmodules > objcDoc.json
-
-      - name: Get Jazzy
-        run: |
-          jazzy --sourcekitten-sourcefile objcDoc.json,swiftDoc.json
-
+      - name: Generate docs
+        run: ./DocGenerator -p ${{ github.event.repository.name }}
+        
       - name: Publish
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:

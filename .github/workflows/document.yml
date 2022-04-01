@@ -1,0 +1,59 @@
+name: Document
+
+on:
+  push:
+    tags:
+      - "*"
+
+  workflow_dispatch:
+
+jobs:
+  document:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Build iOS
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Wait for test to succeed
+        if: steps.wait-for-build.outputs.conclusion == 'success'
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-test
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Test iOS
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install Sourcekitten
+        if: steps.wait-for-test.outputs.conclusion == 'success'
+        run: brew install sourcekitten
+
+      - name: Install Jazzy
+        run: gem install jazzy
+
+      - name: Build Swift docs
+        run: |
+          sourcekitten doc --spm --module-name ${{ github.event.repository.name }} > swiftDoc.json
+
+      - name: Build ObjC docs
+        run: |
+          sourcekitten doc --objc $(pwd)/Sources/${{ github.event.repository.name }}ObjC/include/${{ github.event.repository.name }}ObjC.h \
+            -- -x objective-c  -isysroot $(xcrun --show-sdk-path --sdk iphonesimulator) \
+            -I $(pwd) -fmodules > objcDoc.json
+
+      - name: Get Jazzy
+        run: |
+          jazzy --sourcekitten-sourcefile objcDoc.json,swiftDoc.json
+
+      - name: Publish
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: docs

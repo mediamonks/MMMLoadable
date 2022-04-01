@@ -1,0 +1,306 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 220,
+      "symbol": "MMMLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 220,
+      "symbol": "MMMLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 232,
+      "symbol": "MMMPureLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 232,
+      "symbol": "MMMPureLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 260,
+      "symbol": "MMMAutosyncLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 260,
+      "symbol": "MMMAutosyncLoadable.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 303,
+      "symbol": "MMMPureLoadableGroup.-initWithLoadables:failurePolicy:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 303,
+      "symbol": "MMMPureLoadableGroup.-initWithLoadables:failurePolicy:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 309,
+      "symbol": "MMMPureLoadableGroup.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 309,
+      "symbol": "MMMPureLoadableGroup.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 326,
+      "symbol": "MMMLoadableGroup.-initWithLoadables:failurePolicy:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 326,
+      "symbol": "MMMLoadableGroup.-initWithLoadables:failurePolicy:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 345,
+      "symbol": "MMMPureLoadableProxy.loadable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 345,
+      "symbol": "MMMPureLoadableProxy.loadable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 357,
+      "symbol": "MMMLoadableProxy.loadable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 357,
+      "symbol": "MMMLoadableProxy.loadable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 371,
+      "symbol": "MMMTestLoadable.contentsAvailable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 371,
+      "symbol": "MMMTestLoadable.contentsAvailable",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 372,
+      "symbol": "MMMTestLoadable.error",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 372,
+      "symbol": "MMMTestLoadable.error",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 380,
+      "symbol": "MMMTestLoadable.-setIdle",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 380,
+      "symbol": "MMMTestLoadable.-setIdle",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 381,
+      "symbol": "MMMTestLoadable.-setSyncing",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 381,
+      "symbol": "MMMTestLoadable.-setSyncing",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 382,
+      "symbol": "MMMTestLoadable.-setDidSyncSuccessfully",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 382,
+      "symbol": "MMMTestLoadable.-setDidSyncSuccessfully",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 400,
+      "symbol": "MMMTestLoadable.syncIfNeededCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 400,
+      "symbol": "MMMTestLoadable.syncIfNeededCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 401,
+      "symbol": "MMMTestLoadable.syncCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 401,
+      "symbol": "MMMTestLoadable.syncCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 402,
+      "symbol": "MMMTestLoadable.isContentsAvailableCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 402,
+      "symbol": "MMMTestLoadable.isContentsAvailableCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 404,
+      "symbol": "MMMTestLoadable.addObserverCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 404,
+      "symbol": "MMMTestLoadable.addObserverCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 405,
+      "symbol": "MMMTestLoadable.removeObserverCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadable.h",
+      "line": 405,
+      "symbol": "MMMTestLoadable.removeObserverCounter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 34,
+      "symbol": "MMMNamedLoadableImage.-initWithName:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 36,
+      "symbol": "MMMNamedLoadableImage.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 45,
+      "symbol": "MMMImmediateLoadableImage.-initWithImage:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 47,
+      "symbol": "MMMImmediateLoadableImage.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 57,
+      "symbol": "MMMPublicLoadableImage.-initWithURL:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 59,
+      "symbol": "MMMPublicLoadableImage.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/MMMLoadable/MMMLoadable/Sources/MMMLoadableObjC/MMMLoadableImage.h",
+      "line": 69,
+      "symbol": "MMMTestLoadableImage.-setDidSyncSuccessfullyWithImage:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/MMMLoadable/MMMLoadable"
+}

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MMMPureLoadable Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/MMMPureLoadable" class="dashAnchor"></a>
+    <a title="MMMPureLoadable Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">MMMLoadable 1.7.1 Docs</a> (70% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">MMMLoadable Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        MMMPureLoadable Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/MMMAutosyncLoadable.html">MMMAutosyncLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMBackoffTimeoutPolicy.html">MMMBackoffTimeoutPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableGroup.html">MMMLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableProxy.html">MMMLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableSyncer.html">MMMLoadableSyncer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableSyncer/SyncPolicy.html">– SyncPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableWaiter.html">MMMLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableWaiter/Condition.html">– Condition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadableProxy.html">MMMPureLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMSimpleLoadableWaiter.html">MMMSimpleLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMTestLoadable.html">MMMTestLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableGroupFailurePolicy.html">MMMLoadableGroupFailurePolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableWaiterError.html">MMMLoadableWaiterError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadableImage.html">MMMLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMTimeoutPolicy.html">MMMTimeoutPolicy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:MMMLoadable.h@T@MMMLoadableObserverDidChangeBlock">MMMLoadableObserverDidChangeBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromMMMLoadableState">NSStringFromMMMLoadableState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/MMMPureLoadableProtocol.html">MMMPureLoadableProtocol</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>MMMPureLoadable</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">MMMPureLoadable</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">MMMPureLoadableProtocol</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>A protocol for a &ldquo;read only&rdquo; view on a loadable object which allows to observe the state
+ but does not allow to sync the contents (i.e. trigger a refresh, upload, etc depending on the context).
+ (It&rsquo;s similar to the difference between &ldquo;Promise&rdquo; in &ldquo;Deferred&rdquo; in jQuery.)</p>
+
+<p>Note that there is no explicit &ldquo;value&rdquo; property here, the extension of the protocol should specify additional fields
+ (&ldquo;contents&rdquo; properties) that together constitute the &ldquo;value&rdquo; of the promise.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)MMMPureLoadable(py)loadableState"></a>
+                    <a name="//apple_ref/swift/Property/loadableState" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)MMMPureLoadable(py)loadableState">loadableState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The state of the loadable, such as &lsquo;idle&rsquo; or &lsquo;syncing&rsquo;.</p>
+
+<ul>
+<li>The &lsquo;loadable&rsquo; prefix allows to have a &lsquo;state&rsquo; property for somethingn else in the same object.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">MMMLoadableState</span> <span class="n">loadableState</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">loadableState</span><span class="p">:</span> <span class="kt">MMMLoadableState</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)MMMPureLoadable(py)error"></a>
+                    <a name="//apple_ref/swift/Property/error" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)MMMPureLoadable(py)error">error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Optional error object describing the failure to sync the loadable.</p>
+
+<p>The message should be never shown to the user. If different error conditions have to be communicated to the user,
+ then they should be indicated via the <code>code</code> property of the error and the frontend should select appropriate copy
+ based on it; alternatively, there can be an additional property providing more information.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)MMMPureLoadable(py)contentsAvailable"></a>
+                    <a name="//apple_ref/swift/Property/contentsAvailable" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)MMMPureLoadable(py)contentsAvailable">contentsAvailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>YES, if the contents associated with this loadable (a bunch of properties collectively constituting the &ldquo;value&rdquo;
+ of the promise, depending on the context) can be used now.</p>
+
+<p>Note that unlike promises the contents can be available even when the state says the last sync has failed.
+ (It can be the value fetched on a previous sync or the one fetched initially from a cache, etc;
+ it might be not fresh perhaps, but still be available to be displayed in the UI, for example).</p>
+
+<p>Note that if the state of the loadable is &lsquo;did sync successfully&rsquo; then &lsquo;contentsAvailable&rsquo; must be YES;
+ the reverse is not true.</p>
+
+<p>This property can change only together with <code><a href="../Protocols/MMMPureLoadable.html#/c:objc(pl)MMMPureLoadable(py)loadableState">loadableState</a></code>.</p>
+
+<p>TODO: rename to something like &lsquo;ready&rsquo; to play better with the cases when a loadable is not about fetching
+ contents but about completion of something.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isContentsAvailable</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">contentsAvailable</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isContentsAvailable</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)MMMPureLoadable(im)addObserver:"></a>
+                    <a name="//apple_ref/swift/Method/-addObserver:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)MMMPureLoadable(im)addObserver:">-addObserver:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a state change observer for this loadable. 
+You can use this method directly or use MMMLoadableObserver proxy object for more convenient installation and removal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">MMMLoadableObserverProtocol</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)MMMPureLoadable(im)removeObserver:"></a>
+                    <a name="//apple_ref/swift/Method/-removeObserver:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)MMMPureLoadable(im)removeObserver:">-removeObserver:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes the observer installed earlier.
+Note that forgetting to remove one or trying to remove it more than once is considered a programmer&rsquo;s error.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">MMMLoadableObserverProtocol</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/mediamonks/MMMLoadable" target="_blank" rel="external noopener">MediaMonks</a>. All rights reserved. (Last updated: 2022-04-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

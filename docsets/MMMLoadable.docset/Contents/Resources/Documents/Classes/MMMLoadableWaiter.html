@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MMMLoadableWaiter Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/MMMLoadableWaiter" class="dashAnchor"></a>
+    <a title="MMMLoadableWaiter Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">MMMLoadable 1.7.1 Docs</a> (70% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">MMMLoadable Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        MMMLoadableWaiter Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/MMMAutosyncLoadable.html">MMMAutosyncLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMBackoffTimeoutPolicy.html">MMMBackoffTimeoutPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableGroup.html">MMMLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableProxy.html">MMMLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableSyncer.html">MMMLoadableSyncer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableSyncer/SyncPolicy.html">– SyncPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableWaiter.html">MMMLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMLoadableWaiter/Condition.html">– Condition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMPureLoadableProxy.html">MMMPureLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMSimpleLoadableWaiter.html">MMMSimpleLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMTestLoadable.html">MMMTestLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableGroupFailurePolicy.html">MMMLoadableGroupFailurePolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MMMLoadableWaiterError.html">MMMLoadableWaiterError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadableImage.html">MMMLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MMMTimeoutPolicy.html">MMMTimeoutPolicy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:MMMLoadable.h@T@MMMLoadableObserverDidChangeBlock">MMMLoadableObserverDidChangeBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromMMMLoadableState">NSStringFromMMMLoadableState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/MMMPureLoadableProtocol.html">MMMPureLoadableProtocol</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>MMMLoadableWaiter</h1>
+            <p>Allows for multiple parties to wait for a loadable to have its contents available or synced successfully.</p>
+
+<p>This is made for scenarios when a loadable has something that other objects might want to grab if it&rsquo;s available
+immediately but don&rsquo;t mind to wait a bit while it&rsquo;s not there yet. For example (and initial use case as well),
+the target loadable might be refreshing an access token while multiple API calls need to grab a fresh one just
+before they can proceed.</p>
+
+<p>The user code calls <code>wait()</code> and then is notified via a completion block about the target loadable reaching
+the corresponding condition or the timeout expiring.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Enum/Condition" class="dashAnchor"></a>
+                    <a class="token" href="#/">Condition</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Possible conditions to wait for on the target loadable.</p>
+
+                        <a href="../Classes/MMMLoadableWaiter/Condition.html" class="slightly-smaller">See more</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Method/init(loadable:condition:timeout:shouldSyncIfPossible:queue:timeSource:)" class="dashAnchor"></a>
+                    <a class="token" href="#/">init(loadable:<wbr>condition:<wbr>timeout:<wbr>shouldSyncIfPossible:<wbr>queue:<wbr>timeSource:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Alias/Completion" class="dashAnchor"></a>
+                    <a class="token" href="#/">Completion</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Method/wait(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/">wait(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/syncer" class="dashAnchor"></a>
+                    <a class="token" href="#/">syncer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/mediamonks/MMMLoadable" target="_blank" rel="external noopener">MediaMonks</a>. All rights reserved. (Last updated: 2022-04-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MMMLoadable  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="MMMLoadable  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">MMMLoadable 1.7.1 Docs</a> (70% documented)</p>
+        <div class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">MMMLoadable Reference</a>
+        <img id="carat" src="img/carat.png" alt=""/>
+        MMMLoadable  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/MMMAutosyncLoadable.html">MMMAutosyncLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMBackoffTimeoutPolicy.html">MMMBackoffTimeoutPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableGroup.html">MMMLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableProxy.html">MMMLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableSyncer.html">MMMLoadableSyncer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableSyncer/SyncPolicy.html">– SyncPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableWaiter.html">MMMLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMLoadableWaiter/Condition.html">– Condition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMPureLoadableProxy.html">MMMPureLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMSimpleLoadableWaiter.html">MMMSimpleLoadableWaiter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMTestLoadable.html">MMMTestLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/MMMLoadableGroupFailurePolicy.html">MMMLoadableGroupFailurePolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MMMLoadableWaiterError.html">MMMLoadableWaiterError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MMMTimeoutPolicy.html">MMMTimeoutPolicy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Type%20Definitions.html#/c:MMMLoadable.h@T@MMMLoadableObserverDidChangeBlock">MMMLoadableObserverDidChangeBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromMMMLoadableState">NSStringFromMMMLoadableState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/MMMPureLoadableProtocol.html">MMMPureLoadableProtocol</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='mmmloadable' class='heading'>MMMLoadable</h1>
+
+<p><a href="https://github.com/mediamonks/MMMLoadable/actions?query=workflow%3ABuild"><img src="https://github.com/mediamonks/MMMLoadable/workflows/Build/badge.svg" alt="Build"></a>
+<a href="https://github.com/mediamonks/MMMLoadable/actions?query=workflow%3ATest"><img src="https://github.com/mediamonks/MMMLoadable/workflows/Test/badge.svg" alt="Test"></a></p>
+
+<p>A simple promise-like model of async calculations.</p>
+
+<p>(This is a part of <code>MMMTemple</code> suite of iOS libraries we use at <a href="https://www.mediamonks.com/">MediaMonks</a>.)</p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">source</span> <span class="s1">'https://github.com/mediamonks/MMMSpecs.git'</span>
+<span class="n">source</span> <span class="s1">'https://github.com/CocoaPods/Specs.git'</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">pod</span> <span class="s1">'MMMLoadable'</span>
+</code></pre>
+
+<p>(Use &lsquo;MMMLoadable/ObjC&rsquo; when Swift wrappers are not needed.)</p>
+
+<p>SPM:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mediamonks/MMMLoadable"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.7.0"</span><span class="p">))</span>
+</code></pre>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p><strong>TL;DR:</strong> It&rsquo;s an object that can be tracked, like a Promise, but keeps it&rsquo;s data available
+to the consumer. So if a reload of the data fails, you can still show the old data.</p>
+
+<p>This is yet another implementation of a &ldquo;promise&rdquo; pattern (aka &ldquo;deferred&rdquo;, &ldquo;future&rdquo;, etc).
+Unlike the implementation in jQuery and similar, state transitions backwards (like from &lsquo;resolved&rsquo;
+to &lsquo;in progress&rsquo;) are allowed here and therefore the resolved value can be available no matter
+the current state.</p>
+
+<p>This is convenient to pair with view models when a typical pattern is to display a loading
+indicator of some sort while the contents is being fetched and then to either display the
+downloaded data or indicate an error with some means to retry the load (i.e. &lsquo;sync&rsquo; the
+loadable again). The contents, if available in a loadable, is not changed until the next
+successful sync, which again fits the usual UI patterns where data is displayed even during
+a refresh.</p>
+
+<p>A loadable can be in 4 states:</p>
+
+<ul>
+<li><code>idle</code> Nothing is happening with the object now. It&rsquo;s been never synced or the result of the last sync is not known or important. (Promises — &lsquo;not ready&rsquo;.)</li>
+<li><code>syncing</code> The object is being synced now (e.g. the contents are being downloaded or saved somewhere). (Promises — &lsquo;in-progress&rsquo;.)</li>
+<li><code>didSyncSuccessfully</code> The object has been successfully synced and its contents (promises — value) are available now. (Promises — &lsquo;resolved&rsquo;.) The name is a bit longer than just &lsquo;synced&rsquo; here so it&rsquo;s easier to differentiate from &lsquo;syncing&rsquo;.</li>
+<li><code>didFailToSync</code> The object has not been able to sync for some reason. (Promises — &lsquo;rejected&rsquo;.)</li>
+</ul>
+<h2 id='example' class='heading'>Example</h2>
+
+<p>One of the most straight-forward use cases for <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> is downloading something, let&rsquo;s
+say a list of photos, from a REST API. You can use the pattern for any async (and even sync)
+operation you can think of.</p>
+
+<blockquote>
+<p>💡 If you&rsquo;re looking for a iOS 13+ <code>async</code> / <code>await</code> implementation, have a look at
+<a href="https://github.com/mediamonks/MMMAsyncLoadable">MMMAsyncLoadable</a>. This allows
+you to harness the power of <code>async</code> / <code>await</code> in Swift 5.5 whilst still providing
+the statefulness of a <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code>.</p>
+</blockquote>
+<h3 id='at-the-call-site' class='heading'>At the call site</h3>
+<pre class="highlight swift"><code><span class="c1">// MARK: - Call site</span>
+
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">photosLoadable</span><span class="p">:</span> <span class="kt">PhotosLoadable</span><span class="p">?</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">MMMLoadableObserver</span><span class="p">?</span>
+
+<span class="kd">func</span> <span class="nf">doWork</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="nv">photos</span> <span class="o">=</span> <span class="kt">PhotosLoadable</span><span class="p">()</span>
+
+    <span class="c1">// Let's store the loadable for future reference.</span>
+    <span class="n">photosLoadable</span> <span class="o">=</span> <span class="n">photos</span>
+
+    <span class="c1">// We can observe the loadable in multiple ways, one of the simplest</span>
+    <span class="c1">// being to attach a `MMMLoadableObserver` via the `sink` call.</span>
+    <span class="c1">//</span>
+    <span class="c1">// You can add as many observers to a single loadable as you like.</span>
+    <span class="c1">//</span>
+    <span class="c1">// This returns an MMMLoadableObserver, it's critical to store this</span>
+    <span class="c1">// somewhere, since the observer will stop listening for changes when</span>
+    <span class="c1">// it's deallocated (in this scope that would be immediately).</span>
+    <span class="n">observer</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">sink</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">photosLoadable</span> <span class="k">in</span>
+        <span class="k">switch</span> <span class="n">photosLoadable</span><span class="o">.</span><span class="n">loadableState</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nv">idle</span><span class="p">:</span>
+            <span class="c1">// The loadable hasn't started syncing yet.</span>
+            <span class="k">break</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nv">syncing</span><span class="p">:</span>
+            <span class="c1">// Probably should show a loading state of some sort,</span>
+            <span class="c1">// for instance a 'full page' loader when `isContentsAvailable`</span>
+            <span class="c1">// is `false` and a smaller loader when `true`, since</span>
+            <span class="c1">// we have content to show in that case.</span>
+
+            <span class="k">if</span> <span class="n">photosLoadable</span><span class="o">.</span><span class="n">isContentsAvailable</span> <span class="p">{</span>
+                <span class="c1">// Show a small loader since we have content.</span>
+                <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">showSmallLoader</span><span class="p">()</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">showFullPageLoader</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nv">didSyncSuccessfully</span><span class="p">:</span>
+            <span class="c1">// All ready, `isContentsAvailable` should be `true` here. Use the</span>
+            <span class="c1">// content of the loadable to populate your UI for instance.</span>
+
+            <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">hideLoaders</span><span class="p">()</span>
+
+        <span class="k">case</span> <span class="o">.</span><span class="nv">didFailToSync</span><span class="p">:</span>
+            <span class="c1">// Oops, we can show the photosLoadable.error.</span>
+            <span class="k">if</span> <span class="n">photosLoadable</span><span class="o">.</span><span class="n">isContentsAvailable</span> <span class="p">{</span>
+                <span class="c1">// Show a small error since we have content.</span>
+                <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">showSmallError</span><span class="p">(</span><span class="n">photosLoadable</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">showFullPageError</span><span class="p">(</span><span class="n">photosLoadable</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="p">}</span>
+
+            <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">hideLoaders</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="c1">// We always check if we have content, so we can populate no matter the state.</span>
+        <span class="k">if</span> <span class="n">photosLoadable</span><span class="o">.</span><span class="n">isContentsAvailable</span><span class="p">,</span> <span class="k">let</span> <span class="nv">content</span> <span class="o">=</span> <span class="n">photosLoadable</span><span class="o">.</span><span class="n">photos</span> <span class="p">{</span>
+            <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">updatePhotos</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Please note that we usually just have a single updateUI() call that</span>
+        <span class="c1">// handles all these cases, and is safe to call as much as you want.</span>
+    <span class="p">}</span>
+
+    <span class="o">...</span>
+
+    <span class="c1">// This is similar to attaching a MMMLoadableObserver with an observer</span>
+    <span class="c1">// block:</span>
+    <span class="n">observer2</span> <span class="o">=</span> <span class="kt">MMMLoadableObserver</span><span class="p">(</span><span class="nv">loadable</span><span class="p">:</span> <span class="n">photos</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">loadable</span> <span class="k">in</span>
+        <span class="c1">// The downside here is that the loadable is of</span>
+        <span class="c1">// type `MMMPureLoadableProtocol`. This is usually no problem</span>
+        <span class="c1">// if you store the loadable and use it in a different method</span>
+        <span class="c1">// anyway. E.g. in a `updateUI` call.</span>
+        <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">updateUI</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="o">...</span>
+
+    <span class="c1">// Or we can attach an observer by passing a target:</span>
+    <span class="n">observer3</span> <span class="o">=</span> <span class="kt">MMMLoadableObserver</span><span class="p">(</span><span class="nv">loadable</span><span class="p">:</span> <span class="n">photos</span><span class="p">,</span> <span class="nv">target</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">updateUI</span><span class="kd">)</span><span class="p">)</span>
+
+    <span class="o">...</span>
+
+    <span class="c1">// Or we can attach ourself as an observer, in this case it's critical</span>
+    <span class="c1">// that we remove the observer as well, usually inside a `deinit` call.</span>
+    <span class="n">photos</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">)</span> <span class="c1">// `self` should confirm to `MMMLoadableObserverProtocol`</span>
+
+    <span class="c1">// Now we can actually start loading, we can do this in 2 ways,</span>
+    <span class="c1">// either call `sync()` or call `syncIfNeeded()`. The latter will</span>
+    <span class="c1">// only sync the loadable if `needsSync()` returns `true`, this method</span>
+    <span class="c1">// can be overridden by your implementation, but by default it will only</span>
+    <span class="c1">// need sync if no content is available, or the state is `idle` or</span>
+    <span class="c1">// `didFailToSync`.</span>
+    <span class="c1">//</span>
+    <span class="c1">// The sync call also checks if we're not syncing already, so it's</span>
+    <span class="c1">// safe to call many times in a row.</span>
+    <span class="c1">//</span>
+    <span class="c1">// This forces a sync, so it doesn't check `needsSync()`.</span>
+    <span class="c1">// It will set the loadable from `idle` to `syncing` and reset the</span>
+    <span class="c1">// error (if any), after this it will call the `doSync()` method inside</span>
+    <span class="c1">// your implementation.</span>
+    <span class="n">photos</span><span class="o">.</span><span class="nf">sync</span><span class="p">()</span>
+
+    <span class="c1">// Alternatively, if we only want to make sure we have content to</span>
+    <span class="c1">// display to the user, we can call:</span>
+    <span class="n">photos</span><span class="o">.</span><span class="nf">syncIfNeeded</span><span class="p">()</span>
+    <span class="c1">// This a shorthand for:</span>
+    <span class="k">if</span> <span class="n">photos</span><span class="o">.</span><span class="nf">needsSync</span><span class="p">()</span> <span class="p">{</span> <span class="n">photos</span><span class="o">.</span><span class="nf">sync</span><span class="p">()</span> <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+<h3 id='implementation' class='heading'>Implementation</h3>
+<pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">PhotosLoadable</span><span class="p">:</span> <span class="kt">MMMLoadable</span> <span class="p">{</span>
+
+    <span class="c1">// The `contents` property of this loadable.</span>
+    <span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">contents</span><span class="p">:</span> <span class="p">[</span><span class="kt">MyPhoto</span><span class="p">]?</span>
+
+    <span class="c1">// The flag to determine if the content is available, in simple</span>
+    <span class="c1">// cases it's usually just a nil check, but when loading data in</span>
+    <span class="c1">// chunks or other cases where your 'content' can be non-nil, but</span>
+    <span class="c1">// it's just not available yet.</span>
+    <span class="c1">//</span>
+    <span class="c1">// Note that unlike promises the contents can be available even</span>
+    <span class="c1">// when the state says that the last sync has failed. (It can be the</span>
+    <span class="c1">// value fetched on a previous sync or the one fetched initially</span>
+    <span class="c1">// from a cache, etc; it might be not fresh perhaps, but still</span>
+    <span class="c1">// be available to be displayed in the UI, for example).</span>
+    <span class="c1">//</span>
+    <span class="c1">// Note that if the state of the loadable is `didSyncSuccessfully`</span>
+    <span class="c1">// then `isContentsAvailable` must be `true`, the reverse is not true.</span>
+    <span class="c1">//</span>
+    <span class="c1">// This property can change only together with `loadableState`.</span>
+    <span class="kd">public</span> <span class="k">override</span> <span class="k">var</span> <span class="nv">isContentsAvailable</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="n">contents</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="k">let</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Client</span>
+
+    <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">client</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Client</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">clientRequest</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Client</span><span class="o">.</span><span class="kt">Request</span><span class="p">?</span>
+
+    <span class="c1">// This is where you do your work. It get's called after a `sync()` call</span>
+    <span class="c1">// so the loadableState here is (usually) `syncing`.</span>
+    <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">doSync</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="c1">// We don't call super.doSync() here since that will assert, since</span>
+        <span class="c1">// it's required that this method is overriden.</span>
+
+        <span class="c1">// Let's load some photos for instance, this is done in the API layer</span>
+        <span class="c1">// so we get a response of Result&lt;[API.Photo], APIError&gt; here.</span>
+
+        <span class="n">clientRequest</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">loadPhotos</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">result</span> <span class="k">in</span>
+
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">self</span> <span class="o">=</span> <span class="k">self</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+            <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="k">let</span> <span class="nv">photos</span><span class="p">):</span>
+                <span class="c1">// Nice, all good. We now got an array of API.Photo, our</span>
+                <span class="c1">// own Photo class takes an API model, so let's populate</span>
+                <span class="c1">// the content.</span>
+
+                <span class="k">self</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="kt">MyPhoto</span><span class="o">.</span><span class="kd">init</span><span class="p">)</span>
+                <span class="k">self</span><span class="o">.</span><span class="nf">setDidSyncSuccessfully</span><span class="p">()</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
+                <span class="c1">// The request failed, let's forward this to our loadable.</span>
+                <span class="c1">// Calling setFailedToSyncWithError will set the `loadableState`</span>
+                <span class="c1">// to `didFailToSync` and it will populate the `error` property</span>
+                <span class="c1">// of the loadable with the passed error.</span>
+                <span class="k">self</span><span class="o">.</span><span class="nf">setFailedToSyncWithError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">needsSync</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="c1">// Here we can override if we need a sync, in most use cases the default</span>
+        <span class="c1">// implementation is fine, but you can attach a custom condition.</span>
+        <span class="c1">//</span>
+        <span class="c1">// By default it will only need sync if no content is available, or the</span>
+        <span class="c1">// state is `idle` or `didFailToSync`.</span>
+        <span class="c1">//</span>
+        <span class="c1">// For instance:</span>
+        <span class="k">return</span> <span class="k">super</span><span class="o">.</span><span class="nf">needsSync</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">myCondition</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='advanced' class='heading'>Advanced</h2>
+
+<p>Aside from simple <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code>s and observers there are a lot of classes
+to help you with a variety of problems you might come across while dealing with
+asynchronous operations.</p>
+<h3 id='mmmpureloadable-amp-mmmpureloadableprotocol' class='heading'>MMMPureLoadable &amp; MMMPureLoadableProtocol</h3>
+
+<p>A class / protocol for a &ldquo;read only&rdquo; view on a loadable object which allows &ldquo;the consumer&rdquo;
+of the loadable to observe the state but does not allow to sync the contents. It&rsquo;s similar
+to the difference between &ldquo;Promise&rdquo; and &ldquo;Deferred&rdquo; in jQuery. <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> conforms to
+<code><a href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a></code>, so you can use it as access-control as well.</p>
+
+<p>This can also be useful in cases where data comes in, but doesn&rsquo;t allow you to sync
+it. Like with WebSockets / Firebase Firestore etc. In these cases you can call <code>setSyncing()</code>
+to transform the state to <code>syncing</code>, if appropriate.</p>
+<h3 id='mmmpureloadableproxy-amp-mmmloadableproxy' class='heading'>MMMPureLoadableProxy &amp; MMMLoadableProxy</h3>
+
+<p>Sometimes an API expects a promise but you don&rsquo;t have a reference to it until some time later,
+i.e. you need a promise for a promise.</p>
+
+<p>This proxy pretends its contents is unavailable and the state is idle until the actual promise
+is set. After this all the properties are taken and the calls are forwarded from/to the actual
+object. This can also be used to map a loadable to a different type of content.</p>
+
+<p>You can inherit this and forward &ldquo;contents&rdquo; properties for your kind of loadable.</p>
+
+<p>A good example of this is usage in a ViewModel:</p>
+<pre class="highlight swift"><code><span class="c1">// Inside your view you can listen to the ViewModel by attaching an observer, so you can</span>
+<span class="c1">// show loaders etc. when the user hits the 'login' button.</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">LoginViewModel</span><span class="p">:</span> <span class="kt">MMMLoadableProxy</span> <span class="p">{</span>
+
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// When we set `self.loadable` the ViewModel (now also a Loadable) will</span>
+        <span class="c1">// proxy all state changes.</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">loadable</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="nf">login</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="n">password</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">proxyDidChange</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// This get's called before the observers of the ViewModel are notified,</span>
+        <span class="c1">// so we can some custom state as well, for example:</span>
+        <span class="k">if</span> <span class="n">loadable</span><span class="o">.</span><span class="n">loadableState</span> <span class="o">==</span> <span class="o">.</span><span class="n">didFailToSync</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">errorMessage</span> <span class="o">=</span> <span class="s">"Some user-friendly error message"</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">errorMessage</span> <span class="o">=</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='mmmpureloadablegroup-amp-mmmloadablegroup' class='heading'>MMMPureLoadableGroup &amp; MMMLoadableGroup</h3>
+
+<p>Allows to treat several loadables as one.</p>
+
+<p>Can be used standalone or subclassed (see <code>MMMLoadable+Subclasses.h</code> in this case.)</p>
+
+<p>Its <code>loadableState</code> in case of a &ldquo;strict&rdquo; failure policy (default) is:</p>
+
+<ul>
+<li><code>didSyncSuccessfully</code>, when all the loadables in the group are synced successfully,</li>
+<li><code>didFailToSync</code>, when at least one of the loadables in the group has failed to sync;</li>
+<li><code>syncing</code>, when at least one of the loadables in the group is still syncing and none has failed yet.</li>
+</ul>
+
+<p>The <code>loadableState</code> in case of a &ldquo;never&rdquo; failure policy is:</p>
+
+<ul>
+<li><code>syncing</code>, when at least one of the loadables in the group is still syncing;</li>
+<li><code>didSyncSuccessfully</code> otherwise.</li>
+</ul>
+
+<p>Please note that using <code>never</code> as a failure policy is generally discouraged.</p>
+
+<p>Regardless of the failure policy <code>isContentsAvailable</code> is <code>true</code> when it is <code>true</code> for all the
+objects in the group.</p>
+
+<p>The group only notifies the observers when the <code>loadableState</code> changes. If the <code>loadableState</code> is
+already <code>didSyncSuccessfully</code> we notify the changes of each loadable in the group.</p>
+
+<p><code><a href="Classes/MMMLoadableGroup.html">MMMLoadableGroup</a></code> contains in addition to the behaviour of <code><a href="Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a></code>:</p>
+
+<ul>
+<li><code>needsSync</code> is <code>true</code>, if the same property is <code>true</code> for at least one object in the group;</li>
+<li><code>sync</code> and <code>syncIfNeeded</code> methods call the corresponding methods of every object in the group, as long as they support them (you can mix <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> and <code><a href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a></code> in a <code><a href="Classes/MMMLoadableGroup.html">MMMLoadableGroup</a></code>).</li>
+</ul>
+<h3 id='mmmloadableimage-uikit-only' class='heading'>MMMLoadableImage (UIKit only)</h3>
+
+<p><code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> is a <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> that always contains the <code>image</code> property as contents.</p>
+
+<p><code><a href="Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a></code> Wrapper that loads an image from the app&rsquo;s bundle asynchronously
+(accessible via the <code>+imageNamed:</code> method of UIImage).</p>
+
+<p><code><a href="Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a></code> Wrapper for images that are immediately available.</p>
+
+<p><code><a href="Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a></code> Wrapper that loads an image that is publicly accessible via a
+URL. This is very basic, using the shared instance of NSURLSession, so any caching will
+happen there.</p>
+
+<p><code><a href="Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a></code> This is used in unit tests when we want to manipulate the state
+of a <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> to verify it produces the needed effects on the views being tested.</p>
+
+<p><code><a href="Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a></code> Sometimes an object implementing <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> is created much
+later than when it would be convenient to have one.</p>
+
+<p>A proxy can be used in this case, so the users still have a reference to <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code>
+and can begin observing it or request a sync asap. Later when the actual reference is finally
+available it is supplied to the proxy which begins mirroring its state.</p>
+
+<p>As always, this is meant to be used only in the implementation, with only <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code>
+visible publicly.</p>
+<h3 id='mmmloadablesyncer' class='heading'>MMMLoadableSyncer</h3>
+
+<p>Syncs a loadable periodically using backoff timeouts in case of failures.</p>
+
+<p>Note that it holds a weak reference to the target loadable, which makes it easier to compose
+it into the implementation of the loadable if needed.</p>
+
+<p>Also note, that when a non-zero period is used, then an extra sync is performed every
+time the app enters foreground.</p>
+
+<p>Have a look at the doc-blocks for <code><a href="Classes/MMMLoadableSyncer.html">MMMLoadableSyncer</a></code> and <code><a href="Protocols/MMMTimeoutPolicy.html">MMMTimeoutPolicy</a></code> for more info.</p>
+<h3 id='mmmautosyncloadable-uikit-only' class='heading'>MMMAutosyncLoadable (UIKit only)</h3>
+
+<blockquote>
+<p>We advise to use a <code><a href="Classes/MMMLoadableSyncer.html">MMMLoadableSyncer</a></code> instead of letting the loadable itself
+re-sync.</p>
+</blockquote>
+
+<p>A <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> with simple autorefresh logic. Override the <code>autosyncInterval</code> to determine
+how often autorefresh for the object should be triggered while the app is active. You
+can specify a separate interval to determine how often the loadable should refresh while
+your App is in the background using <code>autosyncIntervalWhileInBackground</code>, return 0 or a
+negative value to disable syncing while in background.</p>
+<h3 id='mmmloadablewaiter' class='heading'>MMMLoadableWaiter</h3>
+
+<p>Allows for multiple parties to wait for a loadable to have its contents available or
+synced successfully.</p>
+
+<p>This is made for scenarios when a loadable has something that other objects might want
+to grab if it&rsquo;s available immediately but don&rsquo;t mind to wait a bit while it&rsquo;s not there
+yet. For example (and initial use case as well), the target loadable might be refreshing
+an access token while multiple API calls need to grab a fresh one just before they can
+proceed.</p>
+
+<p>The user code calls <code>wait()</code> and then is notified via a completion block about the target
+loadable reaching the corresponding condition or the timeout expiring.</p>
+<h3 id='mmmsimpleloadablewaiter' class='heading'>MMMSimpleLoadableWaiter</h3>
+
+<p>Waits for the given loadable to be done with syncing before passing control to your
+completion handler.</p>
+
+<p>This is a more lightweight version of <code><a href="Classes/MMMLoadableWaiter.html">MMMLoadableWaiter</a></code> that does not support timeouts,
+multiple pending requests, or re-syncing the target in case of failures.</p>
+
+<p>Use it when you want to try syncing another loadable before you can proceed, but you are
+one of a few of its users and fully trust this loadable on the timeouts and handling of
+any possible retries. This is often the case when the implementation of a loadable depends
+both on other loadables and something extra for which <code><a href="Classes/MMMLoadableProxy.html">MMMLoadableProxy</a></code> would not work well.</p>
+<h3 id='mmmtestloadable' class='heading'>MMMTestLoadable</h3>
+
+<p>Can be used as a base for unit test (view) models conforming to MMMLoadable. It allows
+you to override properties of a loadable from the outside (i.e. from a unit test).</p>
+<h2 id='ready-for-liftoff' class='heading'>Ready for liftoff? 🚀</h2>
+
+<p>We&rsquo;re always looking for talent. Join one of the fastest-growing rocket ships in
+the business. Head over to our <a href="https://media.monks.com/careers">careers page</a>
+for more info!</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/mediamonks/MMMLoadable" target="_blank" rel="external noopener">MediaMonks</a>. All rights reserved. (Last updated: 2022-04-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

@@ -1,12 +1,12 @@
 #
 # MMMLoadable. Part of MMMTemple.
-# Copyright (C) 2015-2020 MediaMonks. All rights reserved.
+# Copyright (C) 2015-2022 MediaMonks. All rights reserved.
 #
 
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "1.7.1"
+  s.version = "1.8.0"
   s.summary = "A simple model for async calculations"
   s.description = "#{s.summary}."
   s.homepage = "https://github.com/mediamonks/#{s.name}"
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
   s.watchos.deployment_target = '3.0'
-  s.tvos.deployment_target = '9.0'
+  s.tvos.deployment_target = '10.0'
   s.osx.deployment_target = '10.12'
 
   s.subspec 'ObjC' do |ss|
@@ -40,9 +40,10 @@ Pod::Spec.new do |s|
   end
 
   s.test_spec 'Tests' do |ss|
-	  ss.ios.deployment_target = '11.0'
+    ss.ios.deployment_target = '11.0'
     ss.source_files = "Tests/*.{m,swift}"
+    ss.requires_app_host = true
   end
 
-	s.default_subspec = 'ObjC', 'Swift'
+  s.default_subspec = 'ObjC', 'Swift'
 end

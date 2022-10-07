@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /** 
- * Parts of the base lodable accessible to subclasses.
+ * Parts of the base loadable accessible to subclasses.
  */
 @interface MMMLoadable (Subclasses)
 
@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Note that the contents of the group can be changed by subclasses any time after the initialization
  * (and this can be done more than once), so a nil can be passed to the designated initializer and then
- * this property can be adjusted after subobjects are initialized. */
+ * this property can be adjusted after sub-objects are initialized. */
 @property (nonatomic, readwrite) NSArray<id<MMMPureLoadable>> *loadables;
 
 - (void)notifyDidChange;

@@ -289,7 +289,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 #ifdef __HAS_UI_KIT__
 
-@implementation MMMAutosyncLoadable	{
+@implementation MMMAutosyncLoadable {
 	MMMWeakProxy *_autosyncTimerProxy;
 	NSTimer *_autosyncTimer;
 }
@@ -562,17 +562,21 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
 	MMMLoadableObserverSelectorProxy *_observerProxy;
 	MMMLoadableGroupFailurePolicy _failurePolicy;
+	MMMLoadableGroupMode _mode;
 }
 
 @synthesize loadables = _loadables;
 @synthesize contentsAvailable = _contentsAvailable;
 @synthesize loadableState = _loadableState;
 
-- (id)initWithLoadables:(NSArray *)loadables failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy {
+// For some reason Swift overrides the designated initializer and we cannot call it from our convenience methods,
+// thus this "common initializer".
+
+- (id)_initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables mode:(MMMLoadableGroupMode)mode {
 
 	if (self = [super init]) {
 
-		_failurePolicy = failurePolicy;
+		_mode = mode;
 
 		// We don't want our subclasses to override our `loadableDidChange:` so we don't subscribe directly.
 		_observerProxy = [[MMMLoadableObserverSelectorProxy alloc]
@@ -581,15 +585,32 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 		];
 
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
-        
+				
 		[self setLoadables:loadables];
 	}
 
 	return self;
 }
 
+- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables mode:(MMMLoadableGroupMode)mode {
+	return [self _initWithLoadables:loadables mode:mode];
+}
+
+- (id)initWithLoadables:(NSArray *)loadables failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy {
+	MMMLoadableGroupMode mode;
+	switch (failurePolicy) {
+	case MMMLoadableGroupFailurePolicyStrict:
+		mode = MMMLoadableGroupModeAll;
+		break;
+	case MMMLoadableGroupFailurePolicyNever:
+		mode = MMMLoadableGroupModeDeprecated;
+		break;
+	}
+	return [self _initWithLoadables:loadables mode:mode];
+}
+
 - (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables {
-	return [self initWithLoadables:loadables failurePolicy:MMMLoadableGroupFailurePolicyStrict];
+	return [self _initWithLoadables:loadables mode:MMMLoadableGroupModeAll];
 }
 
 - (void)dealloc {
@@ -640,56 +661,88 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	NSInteger syncedCount = 0;
 	NSInteger syncingCount = 0;
 	for (id<MMMLoadable> loadable in _loadables) {
-        switch (_failurePolicy) {
-            case MMMLoadableGroupFailurePolicyStrict:
-                if (loadable.loadableState == MMMLoadableStateDidFailToSync) {
-                    failedCount++;
-                } else if (loadable.loadableState == MMMLoadableStateDidSyncSuccessfully) {
-                    syncedCount++;
-                } else if (loadable.loadableState == MMMLoadableStateSyncing) {
-                    syncingCount++;
-                }
-                break;
-                
-            case MMMLoadableGroupFailurePolicyNever:
-                if (loadable.loadableState == MMMLoadableStateDidFailToSync 
+		switch (_mode) {
+			case MMMLoadableGroupModeAll:
+			case MMMLoadableGroupModeAny:
+				if (loadable.loadableState == MMMLoadableStateDidFailToSync) {
+					failedCount++;
+				} else if (loadable.loadableState == MMMLoadableStateDidSyncSuccessfully) {
+					syncedCount++;
+				} else if (loadable.loadableState == MMMLoadableStateSyncing) {
+					syncingCount++;
+				}
+				break;
+								
+			case MMMLoadableGroupModeDeprecated:
+				if (loadable.loadableState == MMMLoadableStateDidFailToSync
 					|| loadable.loadableState == MMMLoadableStateDidSyncSuccessfully
 				) {
-                    syncedCount++;
-                } else if (loadable.loadableState == MMMLoadableStateSyncing) {
-                    syncingCount++;
-                }
-                break;
-        }
+					syncedCount++;
+				} else if (loadable.loadableState == MMMLoadableStateSyncing) {
+					syncingCount++;
+				}
+				break;
+		}
 	}
 
 	BOOL newContentsAvailable;
 	if (_loadables.count == 0) {
-		// Assuming no content in case the group is empty.
-		// This way initializing the group with an empty array (something we do for convenience before setting the actual array)
-		// won't lead to a useless 'did change' notification.
+		// Assuming no contents in case the group is empty. This way initializing the group with an empty array
+		// (something we do for convenience before setting the actual array) won't lead to a 'did change' notification.
 		newContentsAvailable = NO;
 	} else {
-	 	newContentsAvailable = YES;
-		for (id<MMMLoadable> loadable in _loadables) {
-			if (![loadable isContentsAvailable]) {
-				newContentsAvailable = NO;
+		switch (_mode) {
+			case MMMLoadableGroupModeAll:
+			case MMMLoadableGroupModeDeprecated:
+				// All should have contents available. (Yes, that was the rule in "never" mode as well.)
+				newContentsAvailable = YES;
+				for (id<MMMLoadable> loadable in _loadables) {
+					if (![loadable isContentsAvailable]) {
+						newContentsAvailable = NO;
+						break;
+					}
+				}
 				break;
-			}
+			case MMMLoadableGroupModeAny:
+				// At least one should have contents available.
+				newContentsAvailable = NO;
+				for (id<MMMLoadable> loadable in _loadables) {
+					if ([loadable isContentsAvailable]) {
+						newContentsAvailable = YES;
+						break;
+					}
+				}
+				break;
 		}
 	}
-
+	
 	MMMLoadableState newLoadableState;
-	if (failedCount > 0) {
-		newLoadableState = MMMLoadableStateDidFailToSync;
-	} else if (syncingCount > 0) {
-		newLoadableState = MMMLoadableStateSyncing;
-	} else if (syncedCount > 0 && syncedCount == _loadables.count) {
-		newLoadableState = MMMLoadableStateDidSyncSuccessfully;
-	} else {
-		// Again, avoiding 'did sync' for empty groups, preferring 'idle'.
-		// Same reason as for 'contentsAvailable' in the above.
-		newLoadableState = MMMLoadableStateIdle;
+	switch (_mode) {
+		case MMMLoadableGroupModeAll:
+		case MMMLoadableGroupModeDeprecated:
+			if (failedCount > 0) {
+				newLoadableState = MMMLoadableStateDidFailToSync;
+			} else if (syncingCount > 0) {
+				newLoadableState = MMMLoadableStateSyncing;
+			} else if (syncedCount > 0 && syncedCount == _loadables.count) {
+				newLoadableState = MMMLoadableStateDidSyncSuccessfully;
+			} else {
+				// Again, avoiding 'did sync' for empty groups, preferring 'idle'.
+				// Same reason as for 'contentsAvailable' in the above.
+				newLoadableState = MMMLoadableStateIdle;
+			}
+			break;
+		case MMMLoadableGroupModeAny:
+			if (syncingCount > 0) {
+				newLoadableState = MMMLoadableStateSyncing;
+			} else if (syncedCount > 0) {
+				newLoadableState = MMMLoadableStateDidSyncSuccessfully;
+			} else if (failedCount > 0 && failedCount == _loadables.count) {
+				newLoadableState = MMMLoadableStateDidFailToSync;
+			} else {
+				newLoadableState = MMMLoadableStateIdle;
+			}
+			break;
 	}
 
 	// Not checking for the change in contentsAvailable when notifying because by our contract
@@ -741,14 +794,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 //
 //
 @implementation MMMLoadableGroup
-
-- (id)initWithLoadables:(NSArray<id<MMMLoadable>> *)loadables failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy {
-	return [super initWithLoadables:loadables failurePolicy:failurePolicy];
-}
-
-- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables {
-	return [self initWithLoadables:loadables failurePolicy:MMMLoadableGroupFailurePolicyStrict];
-}
 
 - (void)setLoadables:(NSArray<id<MMMLoadable>> *)loadables {
 

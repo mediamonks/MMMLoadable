@@ -10,9 +10,8 @@ import MMMCommonCore
 @_exported import MMMLoadableObjC
 #endif
 
-extension MMMLoadableState: CustomDebugStringConvertible {
-	
-	public var debugDescription: String { NSStringFromMMMLoadableState(self) }
+extension MMMLoadableState: CustomStringConvertible {
+	public var description: String { NSStringFromMMMLoadableState(self) }
 }
 
 extension MMMPureLoadableProtocol {

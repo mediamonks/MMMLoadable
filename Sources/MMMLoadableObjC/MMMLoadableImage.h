@@ -38,7 +38,7 @@ API_AVAILABLE(ios(11)) @interface MMMNamedLoadableImage : MMMLoadable <MMMLoadab
 @end
 
 /**
- * MMMLoadableImage-compatible wrapper for images that are immediatey available.
+ * MMMLoadableImage-compatible wrapper for images that are immediately available.
  */
 API_AVAILABLE(ios(11)) @interface MMMImmediateLoadableImage : MMMLoadable <MMMLoadableImage>
 
@@ -49,7 +49,7 @@ API_AVAILABLE(ios(11)) @interface MMMImmediateLoadableImage : MMMLoadable <MMMLo
 @end
 
 /** 
- * Implementation of MMMLoadableImage for images that are publically accessible via a URL.
+ * Implementation of MMMLoadableImage for images that are publicly accessible via a URL.
  * This is very basic, using the shared instance of NSURLSession, so any caching will happen there.
  */
 API_AVAILABLE(ios(11)) @interface MMMPublicLoadableImage : MMMLoadable <MMMLoadableImage>
@@ -77,7 +77,7 @@ API_AVAILABLE(ios(11)) @interface MMMTestLoadableImage : MMMTestLoadable <MMMLoa
  * or request a sync asap. Later when the actual reference is finally available it is supplied to the proxy which begins
  * mirroring its state.
  *
- * As always, this is meant to be used only in the implementation, with only id<MMMLoadableImage> visible publically.
+ * As always, this is meant to be used only in the implementation, with only id<MMMLoadableImage> visible publicly.
  */
 API_AVAILABLE(ios(11)) @interface MMMLoadableImageProxy : MMMLoadableProxy <MMMLoadableImage>
 

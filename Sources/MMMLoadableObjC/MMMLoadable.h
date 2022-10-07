@@ -49,7 +49,7 @@ typedef NS_CLOSED_ENUM(NSInteger, MMMLoadableState) {
 	MMMLoadableStateSyncing,
 
 	/** 
-	 * The object has been successfuly synced and its contents (promises — value) is available now.
+	 * The object has been successfully synced and its contents (promises — value) is available now.
 	 * (Promises — 'resolved'.)
 	 * (A name is a bit longer than just 'synced' here so it's easier to differentiate from 'syncing'.)
 	 */
@@ -79,7 +79,7 @@ NS_SWIFT_NAME(MMMPureLoadableProtocol)
 @protocol MMMPureLoadable <NSObject>
 
 /** The state of the loadable, such as 'idle' or 'syncing'.
- * The 'loadable' prefix allows to have a 'state' property for somethingn else in the same object. */
+ * The 'loadable' prefix allows to have a 'state' property for something else in the same object. */
 @property (nonatomic, readonly) MMMLoadableState loadableState;
 
 /**
@@ -182,7 +182,7 @@ typedef void (^MMMLoadableObserverDidChangeBlock)(id<MMMPureLoadable> loadable);
  *
  * Both initializers return `nil` when the passed `loadable` is `nil`. This is handy when resubscribing to (possibile)
  * different loadables many times and storing an instance of the observer in the same variable over and over: there is
- * no need to check the target loadable and/or nillify the previous observer to unsubscribe.
+ * no need to check the target loadable and/or nullify the previous observer to unsubscribe.
  */
 @interface MMMLoadableObserver : NSObject
 
@@ -209,7 +209,7 @@ typedef void (^MMMLoadableObserverDidChangeBlock)(id<MMMPureLoadable> loadable);
 @end
 
 /** 
- * An implementation of a lodable that might be used as a base.
+ * An implementation of a loadable that might be used as a base.
  * Subclasses must override 'isContentsAvailable' and 'doSync', the latter being called from implementation
  * of sync/syncIfNeeded, see `MMMLoadable+Subclasses.h`.
  * (Only the general declaration is open here so you can inherit it in the classes exposed to the end user,
@@ -252,7 +252,7 @@ typedef void (^MMMLoadableObserverDidChangeBlock)(id<MMMPureLoadable> loadable);
 @end
 
 /** 
- * `MMMLoadable` with simple autorefresh logic.
+ * `MMMLoadable` with simple auto-refresh logic.
  * Again, see `MMMLoadable+Subclasses.h` if you want to see how to override things.
  */
 @interface MMMAutosyncLoadable : MMMLoadable
@@ -265,46 +265,85 @@ typedef void (^MMMLoadableObserverDidChangeBlock)(id<MMMPureLoadable> loadable);
  * Defines how sync failures in child loadables of a loadable group affect the sync state of the whole group.
  */
 typedef NS_ENUM(NSInteger, MMMLoadableGroupFailurePolicy) {
-    
-    /** 
-	 * The whole group is considered "failed to sync" when any of the child loadables fails to sync. 
-	 * (This is the default behavior that most of the code relies on.)
+
+	/**
+	 * The loadable state of the group in this mode is:
+	 * - 'synced successfully', when **all** loadables in the group are synced successfully,
+	 * - 'failed to sync', when there is at least one loadable in the group that has failed to sync;
+	 * - 'syncing', when any of the loadables in the group is syncing and none has failed yet.
+	 *
+	 * The contents of the group is considered available, if it is available in **all** objects of the group.
 	 */
-    MMMLoadableGroupFailurePolicyStrict,
+	MMMLoadableGroupFailurePolicyStrict,
     
     /**
-     * The whole group never fails to sync, not even when all the loadables within the group fail.
-	 * (In this case it's assumed that the user code will inspect the children and decide what to do.)
-     */
-    MMMLoadableGroupFailurePolicyNever
+	 * This mode is **deprecated** in favor of `MMMLoadableGroupFailurePolicyAny`.
+	 *
+	 * The loadable state of the group in this mode is:
+	 * - 'syncing', when at least one of the loadables in the group is still syncing;
+	 * - 'synced successfully' otherwise.
+	 * - 'contentsAvailable' is `YES` when it is `YES` for all the objects in the group.
+	 *
+	 * Just like in the "strict" mode, the contents of the group is considered available, if it is available in
+	 * **all** objects of the group. (This is something that was making the mode confusing in addition to breaking
+	 * the contract that the contents is available for 'synced successfully' objects.)
+	 */
+	MMMLoadableGroupFailurePolicyNever
+};
+
+/**
+ * Defines how the composite state of the loadable group depends on the states of its children.
+ */
+typedef NS_ENUM(NSInteger, MMMLoadableGroupMode) {
+
+	/**
+	 * The loadable state of the group in this mode is:
+	 * - 'synced successfully', when **all** loadables in the group are synced successfully,
+	 * - 'failed to sync', when there is at least one loadable in the group that has failed to sync;
+	 * - 'syncing', when any of the loadables in the group is syncing and none has failed yet.
+	 *
+	 * The contents of the group is considered available, if it is available in **all** objects of the group.
+	 */
+	MMMLoadableGroupModeAll,
+
+	/**
+	 * The loadable state of the group in this mode is:
+	 * - 'synced successfully', when at least one of the loadables in the group is synced successfully,
+	 * - 'syncing', when at least one of the loadables in the group is syncing.
+	 * - 'failed to sync', when **all** of the loadables in the group have failed to sync;
+	 * - 'contentsAvailable' is `true`, if there is at least one object in the group with 'contentsAvailable'
+	 */
+	MMMLoadableGroupModeAny,
+
+	/** To map the deprecated "never" failure policy. */
+	MMMLoadableGroupModeDeprecated NS_REFINED_FOR_SWIFT
 };
 
 /** 
  * Allows to treat several "pure" loadables as one.
  *
- * Can be used standalone or subclassed (see `MMMLoadable+Subclasses.h` in this case.)
+ * The group supports 2 different modes:
+ * - "all" (this is the default), where the group is considered 'synced successfully' when **all** of its children
+ *   are 'synced successfully';
+ * - "at least one", where the group is considered 'synced successfully' when **at least one** of its child
+ *   loadables is 'synced successfully'.
  *
- * Its loadable state in case of a "strict" failure policy (default) is:
- * - 'synced succesfully', when all the loadables in the group are synced successfully,
- * - 'failed to sync', when at least one of the loadables in the group has failed to sync;
- * - 'syncing', when at least one of the loadables in the group is still syncing and none has failed yet.
+ * This can be used standalone or subclassed (see `MMMLoadable+Subclasses.h` in this case.)
  *
- * The loadable state in case of "never" failure policy is:
- * - 'syncing', when at least one of the loadables in the group is still syncing;
- * - 'synced succesfully' otherwise.
- *
- * Regardless of the failure policy 'contentsAvailable' is `YES` when it is `YES` for all the objects in the group.
- *
- * The 'did change' event of the group is called when when the `loadableState` of the whole object changes or
- * when all the objects are loaded, then every time any of the objects emits 'did change'.
+ * The 'did change' event of the group is triggered when its `loadableState` changes or, if all objects are loaded,
+ * then every time any of the them emits 'did change'.
  */
 @interface MMMPureLoadableGroup : NSObject <MMMPureLoadable>
 
-- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables 
-	failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy;
+- (instancetype)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables
+	mode:(MMMLoadableGroupMode)mode NS_SWIFT_NAME("init(_:mode)") NS_DESIGNATED_INITIALIZER;
 
-/** Convenience initializer using the "strict" failure policy for compatibility with the current code. */
-- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables;
+/** Convenience initializer using the "all" mode (former "strict" failure policy) for compatibility. */
+- (instancetype)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables;
+
+/** **Deprecated.** */
+- (instancetype)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables
+	failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy;
 
 - (id)init NS_UNAVAILABLE;
 
@@ -315,20 +354,13 @@ typedef NS_ENUM(NSInteger, MMMLoadableGroupFailurePolicy) {
  *
  * Can be used standalone or subclassed (see `MMMLoadable+Subclasses.h` in this case.)
  *
- * In addition to the behaviour of `MMMPureLoadableGroup`:
+ * In addition to the behavior of `MMMPureLoadableGroup`:
  * - `needsSync` is YES, if the same property is YES for at least one object in the group;
  * - `sync` and `syncIfNeeded` methods call the corresponding methods of every object in the group supporting them
  *   (note that some time before we required all objects in a "non-pure" group to support syncing, but it's not the case
  *   anymore).
  */
 @interface MMMLoadableGroup : MMMPureLoadableGroup <MMMLoadable>
-
-- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables 
-	failurePolicy:(MMMLoadableGroupFailurePolicy)failurePolicy NS_DESIGNATED_INITIALIZER;
-
-/** Convenience initializer using the "strict" failure policy for compatibility with the current code. */
-- (id)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables;
-
 @end
 
 /**

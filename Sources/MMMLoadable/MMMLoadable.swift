@@ -32,3 +32,51 @@ extension MMMPureLoadableProtocol {
         }
     }
 }
+
+/// Forwards all calls in `MMMPureLoadableProtocol` to another object.
+/// ("Type-erases" objects conforming `MMMPureLoadableProtocol`, if you want to be fancy.)
+///
+/// This is used as a base for public models where we want to hide internal methods that, although being public
+/// technically, are only meant to be called internally, mostly by the superclass (e.g. `doSync`).
+///
+/// The actual implementation can inherit from all those base classes with exposed overridable methods but then it
+/// is embedded into another wrapper that uses this "box" as its base to forward only the calls of public protocols.
+open class AnyPureLoadable: NSObject, MMMPureLoadableProtocol {
+
+	private let object: MMMPureLoadableProtocol
+	
+	public init(_ original: MMMPureLoadableProtocol) {
+		self.object = original
+	}
+
+	public var loadableState: MMMLoadableState { object.loadableState }
+	public var error: Error? { object.error }
+	public var isContentsAvailable: Bool { object.isContentsAvailable }
+	public func addObserver(_ observer: MMMLoadableObserverProtocol) { object.addObserver(observer) }
+	public func removeObserver(_ observer: MMMLoadableObserverProtocol) { object.removeObserver(observer) }
+}
+
+/// Forwards all calls in `MMMLoadableProtocol` to another object.
+/// ("Type-erases" objects conforming `MMMLoadableProtocol`, if you want to be fancy.)
+///
+/// See `AnyPureLoadable`.
+open class AnyLoadable: NSObject, MMMLoadableProtocol {
+
+	private let object: MMMLoadableProtocol
+	
+	public init(_ original: MMMLoadableProtocol) {
+		self.object = original
+	}
+
+	// Don't want to inherit from the "pure" version of this helper to simplify the hierarchy.
+	
+	public var loadableState: MMMLoadableState { object.loadableState }
+	public var error: Error? { object.error }
+	public var isContentsAvailable: Bool { object.isContentsAvailable }
+	public func addObserver(_ observer: MMMLoadableObserverProtocol) { object.addObserver(observer) }
+	public func removeObserver(_ observer: MMMLoadableObserverProtocol) { object.removeObserver(observer) }
+
+	public func sync() { object.sync() }
+	public var needsSync: Bool { object.needsSync }
+	public func syncIfNeeded() { object.syncIfNeeded() }
+}

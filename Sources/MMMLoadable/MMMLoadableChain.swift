@@ -108,7 +108,7 @@ public final class MMMLoadableChain: MMMLoadable {
 					self.setFailedToSyncWithError(error)
 				case .proceed:
 					self.currentIndex += 1
-					if self.currentIndex < chain.endIndex {
+					if self.currentIndex < self.chain.endIndex {
 						self.syncNextLater()
 					} else {
 						self.setDidSyncSuccessfully()
@@ -117,7 +117,7 @@ public final class MMMLoadableChain: MMMLoadable {
 			} else {
 				self.setFailedToSyncWithError(NSError(
 					domain: self,
-					message: "Could not sync element #\(currentIndex)",
+					message: "Could not sync element #\(self.currentIndex)",
 					underlyingError: loadable.error
 				))
 			}

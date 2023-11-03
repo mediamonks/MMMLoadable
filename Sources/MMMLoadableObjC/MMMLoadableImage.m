@@ -14,6 +14,8 @@
 @import MMMLog;
 #endif
 
+@import ImageIO;
+
 #ifdef __HAS_UI_KIT__
 //
 //
@@ -216,6 +218,53 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 	}];
 }
 
+/// [UIImage imageWithData:] does not decode GIFs as an animated image, this is to fix that.
+- (UIImage *)imageWithData:(NSData *)data {
+
+	CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data, NULL);
+	if (!source) {
+		return nil;
+	}
+	size_t count = CGImageSourceGetCount(source);
+	if (count == 0) {
+		CFRelease(source);
+		return nil;
+	}
+	CFDictionaryRef props = CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+	if (!props) {
+		CFRelease(source);
+		return nil;
+	}
+	NSDictionary *gifProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyGIFDictionary);
+	CFRelease(props);
+	if (count == 1 || !gifProps) {
+		CGImageRef cgImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+		CFRelease(source);
+		return cgImage ? [UIImage imageWithCGImage:cgImage] : nil;
+	}
+
+	NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity:count];
+	for (size_t index = 0; index < count; index++) {
+		CGImageRef cgImage = CGImageSourceCreateImageAtIndex(source, index, NULL);
+		if (!cgImage) {
+			CFRelease(source);
+			return nil;
+		}
+		UIImage *image = [UIImage imageWithCGImage:cgImage];
+		CFRelease(cgImage);
+		if (!image) {
+			CFRelease(source);
+			return nil;
+		}
+		[images addObject:image];
+	}
+
+	NSNumber *delayTimeNum = (NSNumber *)gifProps[(NSString *)kCGImagePropertyGIFDelayTime];
+	NSTimeInterval delayTime = MAX([delayTimeNum doubleValue], 0.1);
+
+	return [UIImage animatedImageWithImages:images duration:delayTime * count];
+}
+
 - (void)didFinishSuccessfullyWithResponse:(NSURLResponse *)response data:(NSData *)data {
 
 	NSAssert(![NSThread isMainThread], @"");
@@ -243,7 +292,7 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		return;
 	}
 
-	UIImage *image = [[UIImage alloc] initWithData:data];
+	UIImage *image = [self imageWithData:data];
 	if (image) {
 		
 		MMM_LOG_TRACE(@"Successfully fetched a %ldx%ld image from %@", (long)image.size.width, (long)image.size.height, _url);

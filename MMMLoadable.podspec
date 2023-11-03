@@ -6,7 +6,7 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "1.10.2"
+  s.version = "1.11.0"
   s.summary = "A simple model for async calculations"
   s.description = "#{s.summary}."
   s.homepage = "https://github.com/mediamonks/#{s.name}"

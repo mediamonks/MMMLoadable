@@ -218,7 +218,24 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 	}];
 }
 
-/// [UIImage imageWithData:] does not decode GIFs as an animated image, this is to fix that.
+- (NSNumber *)imageAnimationDelayTime:(CGImageSourceRef)source {
+	CFDictionaryRef props = CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+	if (!props) {
+		return nil;
+	}
+	NSDictionary *gifProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyGIFDictionary);
+	NSDictionary *webpProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyWebPDictionary);
+	CFRelease(props);
+	if (gifProps) {
+		return (NSNumber *)gifProps[(NSString *)kCGImagePropertyGIFDelayTime];
+	} else if (webpProps) {
+		return (NSNumber *)webpProps[(NSString *)kCGImagePropertyWebPDelayTime];
+	} else {
+		return nil;
+	}
+}
+
+/// [UIImage imageWithData:] does not decode GIFs as animated images, this is to correct that.
 - (UIImage *)imageWithData:(NSData *)data {
 
 	CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data, NULL);
@@ -230,14 +247,8 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		CFRelease(source);
 		return nil;
 	}
-	CFDictionaryRef props = CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
-	if (!props) {
-		CFRelease(source);
-		return nil;
-	}
-	NSDictionary *gifProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyGIFDictionary);
-	CFRelease(props);
-	if (count == 1 || !gifProps) {
+	NSNumber *delayTimeNum = [self imageAnimationDelayTime:source];
+	if (count == 1 || !delayTimeNum) {
 		CGImageRef cgImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
 		CFRelease(source);
 		return cgImage ? [UIImage imageWithCGImage:cgImage] : nil;
@@ -259,7 +270,6 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		[images addObject:image];
 	}
 
-	NSNumber *delayTimeNum = (NSNumber *)gifProps[(NSString *)kCGImagePropertyGIFDelayTime];
 	NSTimeInterval delayTime = MAX([delayTimeNum doubleValue], 0.1);
 
 	return [UIImage animatedImageWithImages:images duration:delayTime * count];
@@ -279,16 +289,20 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		return;
 	}
 
-	if (![[response MIMEType] isEqual:@"image/jpeg"] && ![[response MIMEType] isEqual:@"image/jp2"] &&
-        ![[response MIMEType] isEqual:@"image/png"] && ![[response MIMEType] isEqual:@"image/gif"] &&
-        // Some backends just cannot configure themselves properly, so let's accept generic byte streams as well.
-        ![[response MIMEType] isEqual:@"application/octet-stream"]
-    ) {
+	static NSSet<NSString *> *supportedMIMETypes = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		supportedMIMETypes = [[NSSet alloc] initWithObjects:
+			@"image/jpeg", @"image/jp2", @"image/png", @"image/gif", @"image/webp",
+			// Some backends just cannot configure themselves properly, so let's accept generic byte streams as well.
+			@"application/octet-stream",
+			nil
+		];
+	});
 
-		[self didFailWithError:[self errorWithMessage:[NSString
-			stringWithFormat:@"Unsupported MIME type: '%@'", [response MIMEType]
-		]]];
-
+	NSString *mimeType = [[response MIMEType] lowercaseString];
+	if (![supportedMIMETypes containsObject:mimeType]) {
+		[self didFailWithError:[self errorWithMessage:[NSString stringWithFormat:@"Unsupported MIME type: '%@'", mimeType]]];
 		return;
 	}
 

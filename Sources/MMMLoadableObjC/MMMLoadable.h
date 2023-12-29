@@ -255,6 +255,7 @@ typedef void (^MMMLoadableObserverDidChangeBlock)(id<MMMPureLoadable> loadable);
  * `MMMLoadable` with simple auto-refresh logic.
  * Again, see `MMMLoadable+Subclasses.h` if you want to see how to override things.
  */
+DEPRECATED_MSG_ATTRIBUTE("Use MMMLoadableSyncer instead")
 @interface MMMAutosyncLoadable : MMMLoadable
 
 - (id)init NS_DESIGNATED_INITIALIZER;

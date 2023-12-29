@@ -13,10 +13,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Describes how concurrent access to a loadable should be checked at runtime in Debug builds.
+typedef NS_CLOSED_ENUM(NSInteger, MMMLoadableConcurrency) {
+
+	/// All methods must be called on the main thread.
+	/// This is the default mode and it's good for most cases.
+	MMMLoadableConcurrencyMainThread,
+
+	/// All methods except `init*` must be called on the main thread.
+	/// This is handy when an object is initialized on a worker thread.
+	MMMLoadableConcurrencyMainThreadExceptInit,
+
+	/// Runtime checks are disabled, exclusive access is managed outside the object.
+	MMMLoadableConcurrencyCustom
+};
+
 /** 
  * Parts of the base loadable accessible to subclasses.
  */
 @interface MMMLoadable (Subclasses)
+
+/// Tells if run-time checks for concurrency issues should be enabled. ``MMMLoadableConcurrencyMainThread`` by default.
++ (MMMLoadableConcurrency)concurrency;
 
 /** Subclasses are able to change the loadable state of course. */
 @property (nonatomic, readwrite) MMMLoadableState loadableState;
@@ -73,6 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MMMPureLoadable (Subclasses)
 
+/// Tells if run-time checks for concurrency issues should be enabled. ``MMMLoadableConcurrencyMainThread`` by default.
++ (MMMLoadableConcurrency)concurrency;
+
 /** Subclasses are able to change the loadable state of course. */
 @property (nonatomic, readwrite) MMMLoadableState loadableState;
 
@@ -126,6 +147,9 @@ NS_ASSUME_NONNULL_BEGIN
 //
 //
 @interface MMMPureLoadableGroup (Subclasses)
+
+/// Tells if run-time checks for concurrency issues should be enabled. ``MMMLoadableConcurrencyMainThread`` by default.
++ (MMMLoadableConcurrency)concurrency;
 
 /** Note that the contents of the group can be changed by subclasses any time after the initialization
  * (and this can be done more than once), so a nil can be passed to the designated initializer and then

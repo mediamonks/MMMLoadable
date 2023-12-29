@@ -8,14 +8,13 @@
 
 #if SWIFT_PACKAGE
 @import MMMCommonCoreObjC;
+#else
+@import MMMCommonCore;
+#endif
 
 #if __has_include(<UIKit/UIKit.h>)
 #import <UIKit/UIKit.h>
 #define __HAS_UI_KIT__
-#endif
-
-#else
-@import MMMCommonCore;
 #endif
 
 #pragma mark - MMMLoadable
@@ -29,6 +28,47 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	MMM_ENUM_NAME_END()
 }
 
+// MMMLoadable and friends were never meant to be thread-safe, however it's still easy to touch them from different
+// threads accidentally (especially now with async/await), so let's try to detect incorrect usage.
+
+#ifdef DEBUG
+
+	// Adds variables to the object that the rest of MMM_CHECK_THREAD* macros use.
+	#define MMM_CHECK_THREAD_VARS() \
+		@protected \
+		MMMLoadableConcurrency _concurrency; \
+		@private
+
+	// Called from init* to prepare for MMM_CHECK_THREAD macro.
+	#define MMM_CHECK_THREAD_INIT() \
+		do { \
+			_concurrency = [self.class concurrency]; \
+			NSAssert( \
+				[NSThread isMainThread] || _concurrency != MMMLoadableConcurrencyMainThread, \
+				@"An instance of %@ is created on a non-main thread; fix that or override +concurrency method.", \
+				NSStringFromClass(self.class), NSStringFromClass(self.class) \
+			); \
+		} while (0)
+
+	/// Asserts about the current thread being "main" unless +concurrency
+	#define MMM_CHECK_THREAD() \
+		switch (_concurrency) { \
+		case MMMLoadableConcurrencyMainThread: case MMMLoadableConcurrencyMainThreadExceptInit: \
+			NSCAssert( \
+				[NSThread isMainThread], \
+				@"%@#%s is accessed from a non-main thread; fix that or override +concurrency method.", \
+				NSStringFromClass(self.class), _cmd \
+			); \
+			break; \
+		case MMMLoadableConcurrencyCustom: \
+			break; \
+		}
+#else
+	#define MMM_CHECK_THREAD_VARS()
+	#define MMM_CHECK_THREAD_INIT()
+	#define MMM_CHECK_THREAD()
+#endif
+
 //
 //
 //
@@ -39,16 +79,23 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 @implementation MMMLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
+	MMM_CHECK_THREAD_VARS();
+}
+
++ (MMMLoadableConcurrency)concurrency {
+	return MMMLoadableConcurrencyMainThread;
 }
 
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
+		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
 
 - (void)setLoadableState:(MMMLoadableState)loadableState {
+	MMM_CHECK_THREAD();
 	// Note that we do not check if the state is the same and notify the observers anyway.
 	// This is handy when we are already in 'did load' state and want to communicate changes in the contents
 	// happening without transitions between loadable states.
@@ -57,10 +104,12 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)setSyncing {
+	MMM_CHECK_THREAD();
 	self.loadableState = MMMLoadableStateSyncing;
 }
 
 - (void)setFailedToSyncWithError:(NSError *)error {
+	MMM_CHECK_THREAD();
 	if (_loadableState != MMMLoadableStateDidFailToSync) {
 		_error = error;
 		self.loadableState = MMMLoadableStateDidFailToSync;
@@ -68,16 +117,20 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)setDidSyncSuccessfully {
+	MMM_CHECK_THREAD();
 	_error = nil;
 	self.loadableState = MMMLoadableStateDidSyncSuccessfully;
 }
 
 - (void)syncIfNeeded {
+	MMM_CHECK_THREAD();
 	if (self.needsSync)
 		[self sync];
 }
 
 - (void)sync {
+
+	MMM_CHECK_THREAD();
 
 	if (self.loadableState == MMMLoadableStateSyncing) {
 		// Syncing is in progress already, ignoring the new request
@@ -97,10 +150,12 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 #pragma mark - Overridables
 
 - (BOOL)isContentsAvailable {
+	MMM_CHECK_THREAD();
 	return NO;
 }
 
 - (BOOL)needsSync {
+	MMM_CHECK_THREAD();
 	return !self.contentsAvailable
 		|| (self.loadableState == MMMLoadableStateDidFailToSync)
 		|| (self.loadableState == MMMLoadableStateIdle);
@@ -113,10 +168,12 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 #pragma mark -
 
 - (MMMObserverHub *)observerHub {
+	MMM_CHECK_THREAD();
 	return _observerHub;
 }
 
 - (BOOL)hasObservers {
+	MMM_CHECK_THREAD();
 	return !_observerHub.empty;
 }
 
@@ -130,6 +187,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 - (void)addObserver:(id<MMMLoadableObserver>)observer {
 
+	MMM_CHECK_THREAD();
 	BOOL wasEmpty = [_observerHub isEmpty];
 
 	[_observerHub addObserver:observer];
@@ -141,18 +199,20 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)removeObserver:(id<MMMLoadableObserver>)observer {
-
+	MMM_CHECK_THREAD();
 	if ([_observerHub removeObserver:observer] && [_observerHub isEmpty])
 		[self didRemoveLastObserver];
 }
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[_observerHub forEachObserver:^(id<MMMLoadableObserver> observer) {
 		[observer loadableDidChange:self];
 	}];
 }
 
 - (NSString *)debugDescription {
+	MMM_CHECK_THREAD();
 	return [NSString stringWithFormat:@"<%@: %p; %@, contents available: %d, needs sync: %d>",
 		self.class,
 		self,
@@ -163,6 +223,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (NSString *)description {
+	MMM_CHECK_THREAD();
 	return [NSString stringWithFormat:@"<%@: %@, contents available: %d, needs sync: %d>",
 		self.class,
 		NSStringFromMMMLoadableState(self.loadableState),
@@ -183,16 +244,23 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 @implementation MMMPureLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
+	MMM_CHECK_THREAD_VARS();
+}
+
++ (MMMLoadableConcurrency)concurrency {
+	return MMMLoadableConcurrencyMainThread;
 }
 
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
+		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
 
 - (void)setLoadableState:(MMMLoadableState)loadableState {
+	MMM_CHECK_THREAD();
 	// Note that we do not check if the state is the same and notify the observers anyway.
 	// This is handy when we are already in 'did load' state and want to communicate changes in the contents
 	// happening without transitions between loadable states.
@@ -205,6 +273,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)setFailedToSyncWithError:(NSError *)error {
+	MMM_CHECK_THREAD();
 	if (_loadableState != MMMLoadableStateDidFailToSync) {
 		_error = error;
 		self.loadableState = MMMLoadableStateDidFailToSync;
@@ -212,6 +281,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)setDidSyncSuccessfully {
+	MMM_CHECK_THREAD();
 	_error = nil;
 	self.loadableState = MMMLoadableStateDidSyncSuccessfully;
 }
@@ -219,16 +289,19 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 #pragma mark - Overridables
 
 - (BOOL)isContentsAvailable {
+	MMM_CHECK_THREAD();
 	return NO;
 }
 
 #pragma mark -
 
 - (MMMObserverHub<id<MMMLoadableObserver>> *)observerHub {
+	MMM_CHECK_THREAD();
 	return _observerHub;
 }
 
 - (BOOL)hasObservers {
+	MMM_CHECK_THREAD();
 	return !_observerHub.empty;
 }
 
@@ -242,6 +315,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 - (void)addObserver:(id<MMMLoadableObserver>)observer {
 
+	MMM_CHECK_THREAD();
+
 	BOOL wasEmpty = [_observerHub isEmpty];
 
 	[_observerHub addObserver:observer];
@@ -253,18 +328,20 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)removeObserver:(id<MMMLoadableObserver>)observer {
-
+	MMM_CHECK_THREAD();
 	if ([_observerHub removeObserver:observer] && [_observerHub isEmpty])
 		[self didRemoveLastObserver];
 }
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[_observerHub forEachObserver:^(id<MMMLoadableObserver> observer) {
 		[observer loadableDidChange:self];
 	}];
 }
 
 - (NSString *)debugDescription {
+	MMM_CHECK_THREAD();
 	return [NSString stringWithFormat:@"<%@: %p; %@, contents available: %d>",
 		self.class,
 		self,
@@ -274,6 +351,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (NSString *)description {
+	MMM_CHECK_THREAD();
 	return [NSString stringWithFormat:@"<%@: %@, contents available: %d>",
 		self.class,
 		NSStringFromMMMLoadableState(self.loadableState),
@@ -563,11 +641,16 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	MMMLoadableObserverSelectorProxy *_observerProxy;
 	MMMLoadableGroupFailurePolicy _failurePolicy;
 	MMMLoadableGroupMode _mode;
+	MMM_CHECK_THREAD_VARS();
 }
 
 @synthesize loadables = _loadables;
 @synthesize contentsAvailable = _contentsAvailable;
 @synthesize loadableState = _loadableState;
+
++ (MMMLoadableConcurrency)concurrency {
+	return MMMLoadableConcurrencyMainThread;
+}
 
 // For some reason Swift overrides the designated initializer and we cannot call it from our convenience methods,
 // thus this "common initializer".
@@ -577,6 +660,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	if (self = [super init]) {
 
 		_mode = mode;
+		MMM_CHECK_THREAD_INIT();
 
 		// We don't want our subclasses to override our `loadableDidChange:` so we don't subscribe directly.
 		_observerProxy = [[MMMLoadableObserverSelectorProxy alloc]
@@ -585,7 +669,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 		];
 
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
-				
+
 		[self setLoadables:loadables];
 	}
 
@@ -614,6 +698,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)dealloc {
+	MMM_CHECK_THREAD();
 	// It is tempting to call setLoadables:nil, but this can trigger 'did change' when we don't really want it.
 	for (id<MMMLoadable> loadable in _loadables) {
 		[loadable removeObserver:_observerProxy];
@@ -622,6 +707,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)setLoadables:(NSArray *)loadables {
+
+	MMM_CHECK_THREAD();
 
 	for (id<MMMLoadable> loadable in _loadables) {
 		[loadable removeObserver:_observerProxy];
@@ -636,6 +723,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (NSError *)error {
+
+	MMM_CHECK_THREAD();
 
 	// OK, let's use the error of the first failed object.
 	for (id<MMMLoadable> l in _loadables) {
@@ -652,10 +741,13 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)MMMPureLoadableGroup_loadableDidChange:(id<MMMPureLoadable>)loadable {
+	MMM_CHECK_THREAD();
 	[self updateState];
 }
 
 - (void)updateState {
+
+	MMM_CHECK_THREAD();
 
 	NSInteger failedCount = 0;
 	NSInteger syncedCount = 0;
@@ -763,10 +855,12 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)addObserver:(id<MMMLoadableObserver>)observer {
+	MMM_CHECK_THREAD();
 	[_observerHub addObserver:observer];
 }
 
 - (void)removeObserver:(id<MMMLoadableObserver>)observer {
+	MMM_CHECK_THREAD();
 	[_observerHub removeObserver:observer];
 }
 
@@ -775,12 +869,14 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[_observerHub forEachObserver:^(id<MMMLoadableObserver> observer) {
 		[observer loadableDidChange:self];
 	}];
 }
 
 - (NSString *)description {
+	MMM_CHECK_THREAD();
 	return [NSString stringWithFormat:@"<%@: %@, contents available: %d>",
 		self.class,
 		NSStringFromMMMLoadableState(self.loadableState),
@@ -809,6 +905,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 - (BOOL)needsSync {
 
+	MMM_CHECK_THREAD();
+
 	for (id<MMMLoadable> loadable in self.loadables) {
 		if ([loadable conformsToProtocol:@protocol(MMMLoadable)] && [loadable needsSync]) {
 			return YES;
@@ -819,6 +917,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)sync {
+	MMM_CHECK_THREAD();
 	for (id<MMMLoadable> loadable in self.loadables) {
 		if ([loadable conformsToProtocol:@protocol(MMMLoadable)]) {
 			[loadable sync];
@@ -827,6 +926,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)syncIfNeeded {
+	MMM_CHECK_THREAD();
 	for (id<MMMLoadable> loadable in self.loadables) {
 		if ([loadable conformsToProtocol:@protocol(MMMLoadable)]) {
 			[loadable syncIfNeeded];
@@ -845,22 +945,28 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 @implementation MMMPureLoadableProxy
 
 - (void)dealloc {
+	MMM_CHECK_THREAD();
 	[_loadable removeObserver:self];
 }
 
 - (BOOL)isContentsAvailable {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.contentsAvailable : NO;
 }
 
 - (MMMLoadableState)loadableState {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.loadableState : super.loadableState;
 }
 
 - (NSError *)error {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.error : nil;
 }
 
 - (void)setLoadable:(id<MMMLoadable>)l {
+
+	MMM_CHECK_THREAD();
 
 	[_loadable removeObserver:self];
 
@@ -872,15 +978,16 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	super.loadableState = MMMLoadableStateIdle;
 }
 
-- (void)proxyDidChange {
-}
+- (void)proxyDidChange {}
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[self proxyDidChange];
 	[super notifyDidChange];
 }
 
 - (void)loadableDidChange:(id<MMMPureLoadable>)loadable {
+	MMM_CHECK_THREAD();
 	[self notifyDidChange];
 }
 
@@ -895,22 +1002,28 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 @implementation MMMLoadableProxy
 
 - (void)dealloc {
+	MMM_CHECK_THREAD();
 	[_loadable removeObserver:self];
 }
 
 - (BOOL)isContentsAvailable {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.contentsAvailable : NO;
 }
 
 - (MMMLoadableState)loadableState {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.loadableState : super.loadableState;
 }
 
 - (NSError *)error {
+	MMM_CHECK_THREAD();
 	return _loadable ? _loadable.error : nil;
 }
 
 - (void)setLoadable:(id<MMMLoadable>)l {
+
+	MMM_CHECK_THREAD();
 
 	[_loadable removeObserver:self];
 
@@ -929,23 +1042,26 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	super.loadableState = MMMLoadableStateIdle;
 }
 
-- (void)proxyDidChange {
-}
+- (void)proxyDidChange {}
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[self proxyDidChange];
 	[super notifyDidChange];
 }
 
 - (void)loadableDidChange:(id<MMMPureLoadable>)loadable {
+	MMM_CHECK_THREAD();
 	[self notifyDidChange];
 }
 
 - (BOOL)needsSync {
+	MMM_CHECK_THREAD();
 	return self.loadable ? self.loadable.needsSync : YES;
 }
 
 - (void)sync {
+	MMM_CHECK_THREAD();
 	// We cannot use the logic of the base class here, i.e. ignore `sync` request when we are already `syncing`.
 	// For example, if the proxied object is a group where one object is syncing already, but another is not (and thus
 	// the whole group is `syncing`), then eating this request is going to prevent this other object from refreshing.
@@ -960,6 +1076,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)syncIfNeeded {
+	MMM_CHECK_THREAD();
 	// See the comment in sync, it's similar here.
 	if (self.loadable) {
 		[self.loadable syncIfNeeded];
@@ -975,6 +1092,11 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 //
 @implementation MMMTestLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
+	MMM_CHECK_THREAD_VARS();
+}
+
++ (MMMLoadableConcurrency)concurrency {
+	return MMMLoadableConcurrencyMainThread;
 }
 
 @synthesize loadableState = _loadableState;
@@ -982,17 +1104,21 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
+		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
 
 - (BOOL)needsSync {
+	MMM_CHECK_THREAD();
 	// Let's have the default implementation the same as in the base MMMLoadable.
 	// TODO: should we allow to override this from the outside?
 	return !self.contentsAvailable || (self.loadableState == MMMLoadableStateDidFailToSync) || (self.loadableState == MMMLoadableStateIdle);
 }
 
 - (void)syncIfNeeded {
+
+	MMM_CHECK_THREAD();
 
 	_syncIfNeededCounter++;
 
@@ -1007,6 +1133,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 - (void)sync {
 
+	MMM_CHECK_THREAD();
+
 	_syncCounter++;
 
 	if (self.loadableState == MMMLoadableStateSyncing)
@@ -1018,35 +1146,42 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (BOOL)isContentsAvailable {
+	MMM_CHECK_THREAD();
 	_isContentsAvailableCounter++;
 	return _contentsAvailable;
 }
 
 - (void)resetAllCallCounters {
+	MMM_CHECK_THREAD();
 	_syncIfNeededCounter = 0;
 	_syncCounter = 0;
 	_isContentsAvailableCounter = 0;
 }
 
 - (void)setLoadableState:(MMMLoadableState)loadableState {
+	MMM_CHECK_THREAD();
 	_loadableState = loadableState;
 	[self notifyDidChange];
 }
 
 - (void)setIdle {
+	MMM_CHECK_THREAD();
 	self.loadableState = MMMLoadableStateIdle;
 }
 
 - (void)setSyncing {
+	MMM_CHECK_THREAD();
 	self.loadableState = MMMLoadableStateSyncing;
 }
 
 - (void)setDidSyncSuccessfully {
+	MMM_CHECK_THREAD();
 	_contentsAvailable = YES;
 	self.loadableState = MMMLoadableStateDidSyncSuccessfully;
 }
 
 - (void)setDidFailToSyncWithError:(NSError *)error {
+	MMM_CHECK_THREAD();
 	self.error = error;
 	self.loadableState = MMMLoadableStateDidFailToSync;
 }
@@ -1054,21 +1189,25 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 #pragma mark -
 
 - (BOOL)hasObservers {
+	MMM_CHECK_THREAD();
 	return !_observerHub.empty;
 }
 
 - (void)notifyDidChange {
+	MMM_CHECK_THREAD();
 	[_observerHub forEachObserver:^(id<MMMLoadableObserver> observer) {
 		[observer loadableDidChange:self];
 	}];
 }
 
 - (void)addObserver:(id<MMMLoadableObserver>)observer {
+	MMM_CHECK_THREAD();
 	_addObserverCounter++;
 	[_observerHub addObserver:observer];
 }
 
 - (void)removeObserver:(id<MMMLoadableObserver>)observer {
+	MMM_CHECK_THREAD();
 	_removeObserverCounter--;
 	[_observerHub removeObserver:observer];
 }

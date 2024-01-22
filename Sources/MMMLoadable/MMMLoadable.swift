@@ -31,6 +31,34 @@ extension MMMPureLoadableProtocol {
             block(self)
         }
     }
+
+	/// Waits for the receiver to stop syncing and continues if `isContentsAvailable`; throws otherwise.
+	public func doneSyncing() async throws {
+		try await contentsAfterDoneSyncing { _ in }
+	}
+
+	/// Waits for the receiver to stop syncing; then, if `isContentsAvailable`, returns the result of the given closure;
+	/// throws otherwise.
+	public func contentsAfterDoneSyncing<T>(_ grabContents: @escaping (Self) throws -> T) async throws -> T {
+		try await withCheckedThrowingContinuation { continuation in
+			DispatchQueue.main.async {
+				var waiter: MMMSimpleLoadableWaiter?
+				waiter = MMMSimpleLoadableWaiter.whenDoneSyncing(self) {
+					do {
+						if self.isContentsAvailable {
+							continuation.resume(returning: try grabContents(self))
+						} else {
+							throw self.error ?? NSError(domain: self, message: "Unspecified error")
+						}
+					} catch {
+						continuation.resume(throwing: error)
+					}
+					// We need to keep the waiter around while waiting.
+					_ = waiter
+				}
+			}
+		}
+	}
 }
 
 /// Forwards all calls in `MMMPureLoadableProtocol` to another object.

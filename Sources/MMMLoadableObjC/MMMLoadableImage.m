@@ -272,7 +272,11 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 
 	NSTimeInterval delayTime = MAX([delayTimeNum doubleValue], 0.1);
 
-	return [UIImage animatedImageWithImages:images duration:delayTime * count];
+	UIImage *result = [UIImage animatedImageWithImages:images duration:delayTime * count];
+
+	CFRelease(source);
+
+	return result;
 }
 
 - (void)didFinishSuccessfullyWithResponse:(NSURLResponse *)response data:(NSData *)data {

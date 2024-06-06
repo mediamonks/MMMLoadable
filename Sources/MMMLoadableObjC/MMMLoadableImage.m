@@ -224,7 +224,10 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		return nil;
 	}
 	NSDictionary *gifProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyGIFDictionary);
-	NSDictionary *webpProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyWebPDictionary);
+	NSDictionary *webpProps = nil;
+	if (@available(iOS 14.0, *)) {
+		webpProps = (__bridge NSDictionary *)(CFDictionaryRef)CFDictionaryGetValue(props, kCGImagePropertyWebPDictionary);
+	}
 	CFRelease(props);
 	if (gifProps) {
 		return (NSNumber *)gifProps[(NSString *)kCGImagePropertyGIFDelayTime];
@@ -270,7 +273,7 @@ API_AVAILABLE(ios(11)) @implementation MMMPublicLoadableImage {
 		[images addObject:image];
 	}
 
-	NSTimeInterval delayTime = MAX([delayTimeNum doubleValue], 0.1);
+	NSTimeInterval delayTime = MAX([delayTimeNum doubleValue], 0.04);
 
 	UIImage *result = [UIImage animatedImageWithImages:images duration:delayTime * count];
 

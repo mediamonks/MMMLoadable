@@ -337,7 +337,7 @@ typedef NS_ENUM(NSInteger, MMMLoadableGroupMode) {
 @interface MMMPureLoadableGroup : NSObject <MMMPureLoadable>
 
 - (instancetype)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables
-	mode:(MMMLoadableGroupMode)mode NS_SWIFT_NAME("init(_:mode)") NS_DESIGNATED_INITIALIZER;
+	mode:(MMMLoadableGroupMode)mode NS_DESIGNATED_INITIALIZER;
 
 /** Convenience initializer using the "all" mode (former "strict" failure policy) for compatibility. */
 - (instancetype)initWithLoadables:(nullable NSArray<id<MMMPureLoadable>> *)loadables;

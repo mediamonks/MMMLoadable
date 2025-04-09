@@ -57,7 +57,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 			NSCAssert( \
 				[NSThread isMainThread], \
 				@"%@#%s is accessed from a non-main thread; fix that or override +concurrency method.", \
-				NSStringFromClass(self.class), _cmd \
+				NSStringFromClass(self.class), sel_getName(_cmd) \
 			); \
 			break; \
 		case MMMLoadableConcurrencyCustom: \

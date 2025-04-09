@@ -25,12 +25,19 @@ public final class MMMFilteredLoadableImage: MMMLoadableProxy, MMMLoadableImage 
 			upstreamImage.isContentsAvailable, let uiImage = upstreamImage.image,
 			let ciImage = uiImage.ciImage ?? uiImage.cgImage.flatMap(CIImage.init(cgImage:))
 		{
-			// TODO: it would be great to move it out of the main thread of course.
-			let outputImage = filters.reduce(ciImage) { inputImage, filter in
+			// Copying filters in order to quickly dispose of their input and output images, so we don't hold them
+			// more than needed and TODO: can process them on a background thread.
+			let tempFilters = filters.map { $0.copy() as! CIFilter }
+			let outputImage = tempFilters.reduce(ciImage) { inputImage, filter in
 				filter.setValue(inputImage, forKey: kCIInputImageKey)
 				return filter.outputImage ?? inputImage
 			}
-			self.image = UIImage(ciImage: outputImage)
+			// Going with `UIImage(ciImage: outputImage)` would cause an issue with `UIImageView` (at least on iOS 17),
+			// if a smaller image is processed after the larger one. It looks like the same surface is reused for both
+			// of them, but `UIImageView` fails to properly show only the used portion of that surface.
+			// Pre-rendering this as a CGImage avoids the issue.
+			self.image = CIContext().createCGImage(outputImage, from: .init(origin: .zero, size: outputImage.extent.size))
+				.map(UIImage.init(cgImage:))
 		} else {
 			self.image = nil
 		}
@@ -39,7 +46,7 @@ public final class MMMFilteredLoadableImage: MMMLoadableProxy, MMMLoadableImage 
 	public override var isContentsAvailable: Bool { image != nil }
 
 	public override var loadableState: MMMLoadableState {
-		set { self.loadableState = newValue }
+		set { super.loadableState = newValue }
 		get {
 			if super.loadableState == .didSyncSuccessfully && !isContentsAvailable {
 				.didFailToSync

@@ -42,6 +42,100 @@
     <div class="content-wrapper">
       <nav class="navigation">
         <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMAutosyncLoadable.html">MMMAutosyncLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes.html#/c:objc(cs)MMMLoadableGroup">MMMLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMLoadableProxy.html">MMMLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMPureLoadableProxy.html">MMMPureLoadableProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMTestLoadable.html">MMMTestLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MMMLoadableGroupFailurePolicy.html">MMMLoadableGroupFailurePolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MMMLoadableGroupMode.html">MMMLoadableGroupMode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MMMLoadableState.html">MMMLoadableState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MMMLoadable.html">MMMLoadable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MMMLoadableObserver.html">MMMLoadableObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Type%20Definitions.html#/c:MMMLoadable.h@T@MMMLoadableObserverDidChangeBlock">MMMLoadableObserverDidChangeBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/c:@F@NSStringFromMMMLoadableState">NSStringFromMMMLoadableState</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -62,8 +156,8 @@
 <p>Podfile:</p>
 <pre class="highlight ruby"><code><span class="n">source</span> <span class="s1">'https://github.com/mediamonks/MMMSpecs.git'</span>
 <span class="n">source</span> <span class="s1">'https://github.com/CocoaPods/Specs.git'</span>
-<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">pod</span> <span class="s1">'MMMLoadable'</span>
+<span class="o">...</span>
+<span class="n">pod</span> <span class="s1">'MMMLoadable'</span>
 </code></pre>
 
 <p>(Use &lsquo;MMMLoadable/ObjC&rsquo; when Swift wrappers are not needed.)</p>
@@ -98,7 +192,7 @@ a refresh.</p>
 </ul>
 <h2 id='example' class='heading'>Example</h2>
 
-<p>One of the most straight-forward use cases for <code>MMMLoadable</code> is downloading something, let&rsquo;s
+<p>One of the most straight-forward use cases for <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> is downloading something, let&rsquo;s
 say a list of photos, from a REST API. You can use the pattern for any async (and even sync)
 operation you can think of.</p>
 
@@ -106,7 +200,7 @@ operation you can think of.</p>
 <p>💡 If you&rsquo;re looking for a iOS 13+ <code>async</code> / <code>await</code> implementation, have a look at
 <a href="https://github.com/mediamonks/MMMAsyncLoadable">MMMAsyncLoadable</a>. This allows
 you to harness the power of <code>async</code> / <code>await</code> in Swift 5.5 whilst still providing
-the statefulness of a <code>MMMLoadable</code>.</p>
+the statefulness of a <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code>.</p>
 </blockquote>
 <h3 id='at-the-call-site' class='heading'>At the call site</h3>
 <pre class="highlight swift"><code><span class="c1">// MARK: - Call site</span>
@@ -300,15 +394,15 @@ the statefulness of a <code>MMMLoadable</code>.</p>
 </code></pre>
 <h2 id='advanced' class='heading'>Advanced</h2>
 
-<p>Aside from simple <code>MMMLoadable</code>s and observers there are a lot of classes
+<p>Aside from simple <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code>s and observers there are a lot of classes
 to help you with a variety of problems you might come across while dealing with
 asynchronous operations.</p>
 <h3 id='mmmpureloadable-amp-mmmpureloadableprotocol' class='heading'>MMMPureLoadable &amp; MMMPureLoadableProtocol</h3>
 
 <p>A class / protocol for a &ldquo;read only&rdquo; view on a loadable object which allows &ldquo;the consumer&rdquo;
 of the loadable to observe the state but does not allow to sync the contents. It&rsquo;s similar
-to the difference between &ldquo;Promise&rdquo; and &ldquo;Deferred&rdquo; in jQuery. <code>MMMLoadable</code> conforms to
-<code>MMMPureLoadable</code>, so you can use it as access-control as well.</p>
+to the difference between &ldquo;Promise&rdquo; and &ldquo;Deferred&rdquo; in jQuery. <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> conforms to
+<code><a href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a></code>, so you can use it as access-control as well.</p>
 
 <p>This can also be useful in cases where data comes in, but doesn&rsquo;t allow you to sync
 it. Like with WebSockets / Firebase Firestore etc. In these cases you can call <code>setSyncing()</code>
@@ -375,36 +469,36 @@ objects in the group.</p>
 <p>The group only notifies the observers when the <code>loadableState</code> changes. If the <code>loadableState</code> is
 already <code>didSyncSuccessfully</code> we notify the changes of each loadable in the group.</p>
 
-<p><code>MMMLoadableGroup</code> contains in addition to the behaviour of <code>MMMPureLoadableGroup</code>:</p>
+<p><code><a href="Classes.html#/c:objc(cs)MMMLoadableGroup">MMMLoadableGroup</a></code> contains in addition to the behaviour of <code><a href="Classes/MMMPureLoadableGroup.html">MMMPureLoadableGroup</a></code>:</p>
 
 <ul>
 <li><code>needsSync</code> is <code>true</code>, if the same property is <code>true</code> for at least one object in the group;</li>
-<li><code>sync</code> and <code>syncIfNeeded</code> methods call the corresponding methods of every object in the group, as long as they support them (you can mix <code>MMMLoadable</code> and <code>MMMPureLoadable</code> in a <code>MMMLoadableGroup</code>).</li>
+<li><code>sync</code> and <code>syncIfNeeded</code> methods call the corresponding methods of every object in the group, as long as they support them (you can mix <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> and <code><a href="Protocols/MMMPureLoadable.html">MMMPureLoadable</a></code> in a <code><a href="Classes.html#/c:objc(cs)MMMLoadableGroup">MMMLoadableGroup</a></code>).</li>
 </ul>
 <h3 id='mmmloadableimage-uikit-only' class='heading'>MMMLoadableImage (UIKit only)</h3>
 
-<p><code>MMMLoadableImage</code> is a <code>MMMLoadable</code> that always contains the <code>image</code> property as contents.</p>
+<p><code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> is a <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> that always contains the <code>image</code> property as contents.</p>
 
-<p><code>MMMNamedLoadableImage</code> Wrapper that loads an image from the app&rsquo;s bundle asynchronously
+<p><code><a href="Classes/MMMNamedLoadableImage.html">MMMNamedLoadableImage</a></code> Wrapper that loads an image from the app&rsquo;s bundle asynchronously
 (accessible via the <code>+imageNamed:</code> method of UIImage).</p>
 
-<p><code>MMMImmediateLoadableImage</code> Wrapper for images that are immediately available.</p>
+<p><code><a href="Classes/MMMImmediateLoadableImage.html">MMMImmediateLoadableImage</a></code> Wrapper for images that are immediately available.</p>
 
-<p><code>MMMPublicLoadableImage</code> Wrapper that loads an image that is publicly accessible via a
+<p><code><a href="Classes/MMMPublicLoadableImage.html">MMMPublicLoadableImage</a></code> Wrapper that loads an image that is publicly accessible via a
 URL. This is very basic, using the shared instance of NSURLSession, so any caching will
 happen there.</p>
 
-<p><code>MMMTestLoadableImage</code> This is used in unit tests when we want to manipulate the state
-of a <code>MMMLoadableImage</code> to verify it produces the needed effects on the views being tested.</p>
+<p><code><a href="Classes/MMMTestLoadableImage.html">MMMTestLoadableImage</a></code> This is used in unit tests when we want to manipulate the state
+of a <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> to verify it produces the needed effects on the views being tested.</p>
 
-<p><code>MMMLoadableImageProxy</code> Sometimes an object implementing <code>MMMLoadableImage</code> is created much
+<p><code><a href="Classes/MMMLoadableImageProxy.html">MMMLoadableImageProxy</a></code> Sometimes an object implementing <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code> is created much
 later than when it would be convenient to have one.</p>
 
-<p>A proxy can be used in this case, so the users still have a reference to <code>MMMLoadableImage</code>
+<p>A proxy can be used in this case, so the users still have a reference to <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code>
 and can begin observing it or request a sync asap. Later when the actual reference is finally
 available it is supplied to the proxy which begins mirroring its state.</p>
 
-<p>As always, this is meant to be used only in the implementation, with only <code>MMMLoadableImage</code>
+<p>As always, this is meant to be used only in the implementation, with only <code><a href="Protocols/MMMLoadableImage.html">MMMLoadableImage</a></code>
 visible publicly.</p>
 <h3 id='mmmloadablesyncer' class='heading'>MMMLoadableSyncer</h3>
 
@@ -424,7 +518,7 @@ time the app enters foreground.</p>
 re-sync.</p>
 </blockquote>
 
-<p>A <code>MMMLoadable</code> with simple autorefresh logic. Override the <code>autosyncInterval</code> to determine
+<p>A <code><a href="Protocols/MMMLoadable.html">MMMLoadable</a></code> with simple autorefresh logic. Override the <code>autosyncInterval</code> to determine
 how often autorefresh for the object should be triggered while the app is active. You
 can specify a separate interval to determine how often the loadable should refresh while
 your App is in the background using <code>autosyncIntervalWhileInBackground</code>, return 0 or a
@@ -453,7 +547,7 @@ multiple pending requests, or re-syncing the target in case of failures.</p>
 <p>Use it when you want to try syncing another loadable before you can proceed, but you are
 one of a few of its users and fully trust this loadable on the timeouts and handling of
 any possible retries. This is often the case when the implementation of a loadable depends
-both on other loadables and something extra for which <code>MMMLoadableProxy</code> would not work well.</p>
+both on other loadables and something extra for which <code><a href="Classes/MMMLoadableProxy.html">MMMLoadableProxy</a></code> would not work well.</p>
 <h3 id='mmmtestloadable' class='heading'>MMMTestLoadable</h3>
 
 <p>Can be used as a base for unit test (view) models conforming to MMMLoadable. It allows
@@ -471,7 +565,7 @@ for more info!</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2024 <a class="link" href="https://media.monks.com" target="_blank" rel="external noopener">Media.Monks</a>. All rights reserved. (Last updated: 2024-06-07)</p>
+      <p>&copy; 2025 <a class="link" href="https://media.monks.com" target="_blank" rel="external noopener">Media.Monks</a>. All rights reserved. (Last updated: 2025-04-09)</p>
       <p></p>
     </section>
   </body>

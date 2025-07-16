@@ -6,7 +6,7 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "2.2.3"
+  s.version = "2.2.4"
   s.summary = "A simple model for async calculations"
   s.description = "#{s.summary}."
   s.homepage = "https://github.com/mediamonks/#{s.name}"
@@ -25,7 +25,6 @@ Pod::Spec.new do |s|
     ss.dependency 'MMMObservables/ObjC'
   end
 
-  s.swift_versions = '4.2'
   s.static_framework = true
   s.pod_target_xcconfig = {
     "DEFINES_MODULE" => "YES"

@@ -6,7 +6,7 @@
 Pod::Spec.new do |s|
 
   s.name = "MMMLoadable"
-  s.version = "2.2.3"
+  s.version = "2.2.6"
   s.summary = "A simple model for async calculations"
   s.description = "#{s.summary}."
   s.homepage = "https://github.com/mediamonks/#{s.name}"
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '14.0'
   s.watchos.deployment_target = '6.0'
-  s.tvos.deployment_target = '13.0'
+  s.tvos.deployment_target = '14.0'
 
   s.subspec 'ObjC' do |ss|
     ss.source_files = [ "Sources/#{s.name}ObjC/*.{h,m}" ]
@@ -25,7 +25,6 @@ Pod::Spec.new do |s|
     ss.dependency 'MMMObservables/ObjC'
   end
 
-  s.swift_versions = '4.2'
   s.static_framework = true
   s.pod_target_xcconfig = {
     "DEFINES_MODULE" => "YES"
@@ -39,7 +38,6 @@ Pod::Spec.new do |s|
   end
 
   s.test_spec 'Tests' do |ss|
-    ss.ios.deployment_target = '11.0'
     ss.source_files = "Tests/*.{m,swift}"
     ss.requires_app_host = true
   end

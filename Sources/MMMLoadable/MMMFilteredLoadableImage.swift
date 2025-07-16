@@ -1,5 +1,5 @@
 //
-// Starbucks App.
+// MMMLoadable. Part of MMMTemple.
 // Copyright (c) 2024 MediaMonks. All rights reserved.
 // 
 

@@ -58,7 +58,7 @@ public final class MMMLoadableSyncer {
 
 		#if os(iOS)
 		self.didBecomeActiveObserver = NotificationCenter.default.addObserver(
-			forName: UIApplication.didBecomeActiveNotification,
+			forName: .UIApplicationDidBecomeActive,
 			object: nil,
 			queue: .main
 		) { [weak self] _ in

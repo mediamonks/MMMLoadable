@@ -837,13 +837,16 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 			break;
 	}
 
-	// Not checking for the change in contentsAvailable when notifying because by our contract
-	// it changes together with the state.
-	// We are not propagating 'did change' notifications without the state change unless the common state
-	// is 'did sync successfully', which means that the content properties (value of the promise) could have
-	// changed without state transitions)
-	if (newLoadableState != _loadableState
+	if (
+		// By our initial contract (which needs to be reviewed, see below) `contentsAvailable` changes only together
+		// with `loadableState`, thus not looking for the change in `contentsAvailable` here.
+		newLoadableState != _loadableState
+		// In 'did sync successfully' we need to propagate change notifications, because they are also used when
+		// the content properties (the value of the promise) change.
 		|| newLoadableState == MMMLoadableStateDidSyncSuccessfully
+		// It's convenient to be notified as soon as one of the objects gets something, the user then has more choice:
+		// either grab what's available or wait for all objects to finish loading.
+		|| (newLoadableState == MMMLoadableStateSyncing || newContentsAvailable != _contentsAvailable)
 	) {
 		_contentsAvailable = newContentsAvailable;
 		_loadableState = newLoadableState;

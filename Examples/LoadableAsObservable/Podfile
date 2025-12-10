@@ -1,0 +1,8 @@
+platform :ios, 26
+
+source 'https://github.com/mediamonks/MMMSpecs.git'
+source 'https://cdn.cocoapods.org/'
+
+target 'LoadableAsObservable' do
+  pod 'MMMLoadable', path: '../..'
+end

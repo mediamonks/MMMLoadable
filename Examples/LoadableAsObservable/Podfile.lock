@@ -1,0 +1,54 @@
+PODS:
+  - MMMCommonCore (1.16.4):
+    - MMMCommonCore/ObjC (= 1.16.4)
+    - MMMCommonCore/Swift (= 1.16.4)
+  - MMMCommonCore/ObjC (1.16.4)
+  - MMMCommonCore/Swift (1.16.4):
+    - MMMCommonCore/ObjC
+  - MMMLoadable (2.3.0):
+    - MMMLoadable/ObjC (= 2.3.0)
+    - MMMLoadable/Swift (= 2.3.0)
+  - MMMLoadable/ObjC (2.3.0):
+    - MMMCommonCore/ObjC
+    - MMMLog/ObjC
+    - MMMObservables/ObjC
+  - MMMLoadable/Swift (2.3.0):
+    - MMMCommonCore
+    - MMMLoadable/ObjC
+    - MMMLog
+    - MMMObservables
+  - MMMLog (1.4.2):
+    - MMMLog/ObjC (= 1.4.2)
+    - MMMLog/Swift (= 1.4.2)
+  - MMMLog/ObjC (1.4.2)
+  - MMMLog/Swift (1.4.2):
+    - MMMLog/ObjC
+  - MMMObservables (1.5.0):
+    - MMMObservables/ObjC (= 1.5.0)
+    - MMMObservables/Swift (= 1.5.0)
+  - MMMObservables/ObjC (1.5.0)
+  - MMMObservables/Swift (1.5.0):
+    - MMMObservables/ObjC
+
+DEPENDENCIES:
+  - MMMLoadable (from `../..`)
+
+SPEC REPOS:
+  https://github.com/mediamonks/MMMSpecs.git:
+    - MMMCommonCore
+    - MMMLog
+    - MMMObservables
+
+EXTERNAL SOURCES:
+  MMMLoadable:
+    :path: "../.."
+
+SPEC CHECKSUMS:
+  MMMCommonCore: 6363e95a0601544f4ab2b1e4b3a93b977edd84ec
+  MMMLoadable: 3062316273ad4871ef9b8b3aba345cdd90288df0
+  MMMLog: ff329370e78dd6e3b1e12a56d40396f12c5dd0e3
+  MMMObservables: 8e74f72767137893b215038d492dc0ab2dc87be2
+
+PODFILE CHECKSUM: 65b0345d19256a378eae1773954025adcbd62e8f
+
+COCOAPODS: 1.16.2

@@ -1,7 +1,6 @@
 //
-// Avianca iOS App.
-// Copyright (C) 2020 Avianca S.A. All rights reserved.
-// Developed for Avianca by MediaMonks B.V.
+// MMMLoadable. Part of MMMTemple.
+// Copyright (C) 2020-2025 Monks. All rights reserved.
 //
 
 import MMMLoadable

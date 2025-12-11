@@ -1,6 +1,6 @@
 //
 // MMMLoadable. Part of MMMTemple.
-// Copyright (C) 2016-2020 MediaMonks. All rights reserved.
+// Copyright (C) 2016-2025 Monks. All rights reserved.
 //
 
 #define SWIFT_PACKAGE 1

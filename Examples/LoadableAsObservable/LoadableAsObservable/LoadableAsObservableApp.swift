@@ -1,6 +1,6 @@
 //
 // MMMLoadable. Part of MMMTemple.
-// Copyright (C) 2026 Monks. All rights reserved.
+// Copyright (C) 2025 Monks. All rights reserved.
 //
 
 import SwiftUI

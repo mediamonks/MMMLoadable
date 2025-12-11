@@ -1,6 +1,6 @@
 //
 // MMMLoadable. Part of MMMTemple.
-// Copyright (C) 2026 Monks. All rights reserved.
+// Copyright (C) 2025 Monks. All rights reserved.
 //
 
 import SwiftUI
@@ -11,6 +11,10 @@ struct ContentView: View {
 
 	@ObservedObject @UsingLoadable
 	public var viewModel: TestViewModel
+
+	public init(viewModel: TestViewModel) {
+		self._viewModel = .init(initialValue: .init(wrappedValue: viewModel))
+	}
 
     var body: some View {
         VStack {

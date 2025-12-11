@@ -1,6 +1,6 @@
 //
 // MMMLoadable. Part of MMMTemple.
-// Copyright (C) 2016-2023 MediaMonks. All rights reserved.
+// Copyright (C) 2016-2025 Monks. All rights reserved.
 //
 
 import Foundation

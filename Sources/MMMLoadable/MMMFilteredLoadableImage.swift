@@ -1,6 +1,6 @@
 //
 // MMMLoadable. Part of MMMTemple.
-// Copyright (c) 2024 MediaMonks. All rights reserved.
+// Copyright (C) 2024-2025 Monks. All rights reserved.
 // 
 
 #if canImport(CoreImage)

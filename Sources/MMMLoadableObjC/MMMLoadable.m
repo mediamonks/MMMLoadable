@@ -29,30 +29,12 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 // MMMLoadable and friends were never meant to be thread-safe, however it's still easy to touch them from different
-// threads accidentally (especially now with async/await), so let's try to detect incorrect usage.
+// threads accidentally (especially now with async/await), so let's try to detect incorrect usage with this macro.
 
 #ifdef DEBUG
-
-	// Adds variables to the object that the rest of MMM_CHECK_THREAD* macros use.
-	#define MMM_CHECK_THREAD_VARS() \
-		@protected \
-		MMMLoadableConcurrency _concurrency; \
-		@private
-
-	// Called from init* to prepare for MMM_CHECK_THREAD macro.
-	#define MMM_CHECK_THREAD_INIT() \
-		do { \
-			_concurrency = [self.class concurrency]; \
-			NSAssert( \
-				[NSThread isMainThread] || _concurrency != MMMLoadableConcurrencyMainThread, \
-				@"An instance of %@ is created on a non-main thread; fix that or override +concurrency method.", \
-				NSStringFromClass(self.class), NSStringFromClass(self.class) \
-			); \
-		} while (0)
-
 	/// Asserts about the current thread being "main" unless +concurrency
 	#define MMM_CHECK_THREAD() \
-		switch (_concurrency) { \
+		switch ([self.class concurrency]) { \
 		case MMMLoadableConcurrencyMainThread: case MMMLoadableConcurrencyMainThreadExceptInit: \
 			NSCAssert( \
 				[NSThread isMainThread], \
@@ -64,10 +46,25 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 			break; \
 		}
 #else
-	#define MMM_CHECK_THREAD_VARS()
-	#define MMM_CHECK_THREAD_INIT()
 	#define MMM_CHECK_THREAD()
 #endif
+
+// Another issue with async/await in Swift is that it's too easy for a reference to be captured in one of the task
+// closures and then released calling `dealloc` on a random thread.
+//
+// Before we used to assert in `dealloc` too, but this is not practical, because objects can be captured outside
+// of our control. For example, Datadog makes snapshots of SwiftUI views to process them in the background. When it
+// releases a snapshot that happens to reference a loadable, then our `dealloc` will be performed on a non-main thread.
+//
+// Instead of asserting, we are now trying to ensure that the stuff we do in `dealloc` (mainly unsubscribing from
+// other loadables) is safe.
+static void DispatchOnMainThread(void (^block)(void)) {
+	if ([NSThread isMainThread]) {
+		block();
+	} else {
+		dispatch_async(dispatch_get_main_queue(), block);
+	}
+}
 
 //
 //
@@ -79,7 +76,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 @implementation MMMLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
-	MMM_CHECK_THREAD_VARS();
 }
 
 + (MMMLoadableConcurrency)concurrency {
@@ -89,7 +85,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
-		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
@@ -244,7 +239,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 @implementation MMMPureLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
-	MMM_CHECK_THREAD_VARS();
 }
 
 + (MMMLoadableConcurrency)concurrency {
@@ -254,7 +248,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
-		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
@@ -549,10 +542,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (void)loadableDidChange:(id<MMMLoadable>)loadable {
 
 	id target = _target;
-	if (!target) {
-		NSAssert(NO, @"A target of the observer proxy has been deallocated or the proxy was not removed");
+	if (!target)
 		return;
-	}
 
 	#pragma clang diagnostic push
 	#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -616,8 +607,15 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)dealloc {
-	// Ensure it's removed from the list of observers when deallocated
-	[self remove];
+	// Note that when the observer is deallocated the target of the proxy should be gone as well, because normally
+	// it's the one holding a reference to the observer. Therefore, in case `dealloc` happens to be called from
+	// a non-main thread, there is no risk of the original object receiving a notification while the removal
+	// is being dispatched.
+	id<MMMPureLoadable> loadable = _loadable;
+	id<MMMLoadableObserver> proxy = _proxy;
+	DispatchOnMainThread(^{
+		[loadable removeObserver:proxy];
+	});
 }
 
 - (void)remove {
@@ -641,7 +639,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	MMMLoadableObserverSelectorProxy *_observerProxy;
 	MMMLoadableGroupFailurePolicy _failurePolicy;
 	MMMLoadableGroupMode _mode;
-	MMM_CHECK_THREAD_VARS();
 }
 
 @synthesize loadables = _loadables;
@@ -660,7 +657,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	if (self = [super init]) {
 
 		_mode = mode;
-		MMM_CHECK_THREAD_INIT();
 
 		// We don't want our subclasses to override our `loadableDidChange:` so we don't subscribe directly.
 		_observerProxy = [[MMMLoadableObserverSelectorProxy alloc]
@@ -698,12 +694,14 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 - (void)dealloc {
-	MMM_CHECK_THREAD();
-	// It is tempting to call setLoadables:nil, but this can trigger 'did change' when we don't really want it.
-	for (id<MMMLoadable> loadable in _loadables) {
-		[loadable removeObserver:_observerProxy];
-	}
-	_loadables = nil;
+	NSArray *loadables = _loadables;
+	MMMLoadableObserverSelectorProxy *observerProxy = _observerProxy;
+	DispatchOnMainThread(^{
+		// It is tempting to call setLoadables:nil, but this can trigger 'did change' when we don't really want it.
+		for (id<MMMLoadable> loadable in loadables) {
+			[loadable removeObserver:observerProxy];
+		}
+	});
 }
 
 - (void)setLoadables:(NSArray *)loadables {
@@ -945,11 +943,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 @interface MMMPureLoadableProxy () <MMMLoadableObserver>
 @end
 
-@implementation MMMPureLoadableProxy
-
-- (void)dealloc {
-	MMM_CHECK_THREAD();
-	[_loadable removeObserver:self];
+@implementation MMMPureLoadableProxy {
+	MMMLoadableObserver *_observer;
 }
 
 - (BOOL)isContentsAvailable {
@@ -971,10 +966,8 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 
 	MMM_CHECK_THREAD();
 
-	[_loadable removeObserver:self];
-
 	_loadable = l;
-	[_loadable addObserver:self];
+	_observer = [[MMMLoadableObserver alloc] initWithLoadable:l target:self selector:@selector(notifyDidChange)];
 
 	// We need to reset our loadable state only when the proxied object is removed (not sure if it's the actual use case).
 	// But resetting it also triggers a notification and that's what we need in any case.
@@ -989,24 +982,16 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	[super notifyDidChange];
 }
 
-- (void)loadableDidChange:(id<MMMPureLoadable>)loadable {
-	MMM_CHECK_THREAD();
-	[self notifyDidChange];
-}
-
 @end
 
 //
 // Note that I did not want to bother with inheritance from MMMPureLoadableProxy in this case.
 //
-@interface MMMLoadableProxy () <MMMLoadableObserver>
+@interface MMMLoadableProxy ()
 @end
 
-@implementation MMMLoadableProxy
-
-- (void)dealloc {
-	MMM_CHECK_THREAD();
-	[_loadable removeObserver:self];
+@implementation MMMLoadableProxy {
+	MMMLoadableObserver *_observer;
 }
 
 - (BOOL)isContentsAvailable {
@@ -1027,8 +1012,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (void)setLoadable:(id<MMMLoadable>)l {
 
 	MMM_CHECK_THREAD();
-
-	[_loadable removeObserver:self];
 
 	_loadable = l;
 
@@ -1038,7 +1021,7 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	}
 
 	// And adding our observer after requesting sync, so we skip the first notification if any.
-	[_loadable addObserver:self];
+	_observer = [[MMMLoadableObserver alloc] initWithLoadable:l target:self selector:@selector(notifyDidChange)];
 
 	// We need to reset our loadable state only when the proxied object is removed (not sure if it's the actual use case).
 	// But resetting it also triggers a notification and that's what we need in any case.
@@ -1051,11 +1034,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 	MMM_CHECK_THREAD();
 	[self proxyDidChange];
 	[super notifyDidChange];
-}
-
-- (void)loadableDidChange:(id<MMMPureLoadable>)loadable {
-	MMM_CHECK_THREAD();
-	[self notifyDidChange];
 }
 
 - (BOOL)needsSync {
@@ -1095,7 +1073,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 //
 @implementation MMMTestLoadable {
 	MMMObserverHub<id<MMMLoadableObserver>> *_observerHub;
-	MMM_CHECK_THREAD_VARS();
 }
 
 + (MMMLoadableConcurrency)concurrency {
@@ -1107,7 +1084,6 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 - (id)init {
 	if (self = [super init]) {
 		_observerHub = [[MMMObserverHub alloc] initWithObservable:self];
-		MMM_CHECK_THREAD_INIT();
 	}
 	return self;
 }
@@ -1216,4 +1192,3 @@ NSString *NSStringFromMMMLoadableState(MMMLoadableState state) {
 }
 
 @end
-

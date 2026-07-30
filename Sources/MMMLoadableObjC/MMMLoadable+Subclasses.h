@@ -28,7 +28,7 @@ typedef NS_CLOSED_ENUM(NSInteger, MMMLoadableConcurrency) {
 	MMMLoadableConcurrencyCustom
 };
 
-/** 
+/**
  * Parts of the base loadable accessible to subclasses.
  */
 @interface MMMLoadable (Subclasses)
